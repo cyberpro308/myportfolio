@@ -1,1 +1,307 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>CyberPro — Web Developer</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"><style> * { box-sizing: border-box; } body { margin: 0; font-family: 'Inter', sans-serif; color: #1a1a1a; background: linear-gradient(180deg,#fefdfb,#ffffff); } nav { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; } .logo { display: flex; align-items: center; gap: .5rem; } .logo-circle { width: 40px; height: 40px; background: #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; } nav a { text-decoration: none; color: #f97316; border: 1px solid #f97316; padding: .5rem 1rem; border-radius: 6px; margin-left: .5rem; transition: background .3s; } nav a:hover { background: #f97316; color: white; } header { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 2rem; align-items: center; } header h1 { font-size: 2.5rem; font-weight: 700; } header h1 span { color: #f97316; } header p { margin-top: 1rem; font-size: 1.1rem; color: #444; } .cta { margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; } .cta a { text-decoration: none; padding: .8rem 1.2rem; border-radius: 8px; } .cta a:hover { background-color: #f97316; color: white; } .btn-primary { background: #f97316; color: white; } .btn-outline { border: 1px solid #ccc; color: #333; } .projects { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; } .projects h2 { font-size: 2rem; margin-bottom: 1.5rem; text-align: center; } .project-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2rem; } .project { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,.05); transition: transform .3s; cursor: pointer; } .project:hover { transform: translateY(-4px); } .project img { width: 100%; height: 180px; object-fit: cover; } .project .content { padding: 1rem; } .project .content h3 { margin: 0; font-size: 1.2rem; } .project .content p { font-size: .95rem; color: #555; margin: .5rem 0; } footer { height: 20px; text-align: center; padding: 2rem; font-size: .9rem; color: #fff; background-color: #f97316; border-top-left-radius: 20px; border-top-right-radius: 20px; } </style></head><body><nav><div class="logo"><div class="logo-circle">CP</div><div><div style="font-weight:600;">CyberPro</div><div style="font-size:.8rem;color:#666;">Web Developer</div></div></div><div><a href="#projects">Projects</a><a href="mailto:olubanwoemmanuel0@gmail.com">Contact</a></div></nav><header><div><h1>Clean <span>Websites</span> — Practical Code</h1><p>I build clean, fast and accessible websites — modern designs, pragmatic code.</p><div class="cta"><a href="mailto:olubanwoemmanuel0@gmail.com" class="btn-primary">Hire Me</a><a href="https://wa.me/2349057467104" class="btn-outline" target="_blank">WhatsApp</a></div></div><div><img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?q=80&w=1200&auto=format&fit=crop" alt="workspace" style="width:100%;border-radius:12px;"></div></header><section class="projects" id="projects"><h2>Featured Projects</h2><div class="project-grid"><div class="project"><img src="https://images.unsplash.com/photo-1543353071-087092ec393a?q=80&w=1200&auto=format&fit=crop" alt="project1"><div class="content"><h3>Spice Haven Landing Page</h3><p>Responsive one-page site for a restaurant built with HTML/CSS.</p></div></div><div class="project"><img src="https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?q=80&w=1200&auto=format&fit=crop" alt="project2"><div class="content"><h3>Portfolio Grid UI</h3><p>Animated project grid with hover states using vanilla JS + CSS.</p></div></div><div class="project"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop" alt="project3"><div class="content"><h3>E-commerce Mockup</h3><p>Clean product grid and checkout flow built as a demo for a shop.</p></div></div></div></section><footer> © 2025 CyberPro. All rights reserved. — <a href="mailto:olubanwoemmanuel0@gmail.com">Email</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Emmanuel — Web Designer & Frontend Developer</title>
+  <meta name="description" content="Portfolio of Emmanuel — web design, UI/UX, frontend development." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #f5faff;          /* soft off-white */
+      --card: #ffffff;
+      --muted:#6b7280;
+      --text:#0f172a;
+      --accent-1: #0ea5a4;    /* teal */
+      --accent-2: #6366f1;    /* indigo */
+      --glass: rgba(15,23,42,0.04);
+      --radius:14px;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+      background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+      line-height:1.5;padding:36px 20px;display:flex;justify-content:center;
+    }
+
+    .wrap{width:100%;max-width:var(--maxw)}
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent-2),var(--accent-1));display:grid;place-items:center;font-weight:800;font-size:20px;color:white;box-shadow:0 8px 30px rgba(99,102,241,0.12)}
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px}
+    nav a.cta{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));padding:8px 14px;border-radius:10px;color:white}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:stretch;margin-bottom:36px}
+    .hero-card{background:linear-gradient(180deg,rgba(255,255,255,1),rgba(255,255,255,0.98));border-radius:var(--radius);padding:36px;border:1px solid var(--glass);box-shadow:0 12px 40px rgba(2,6,23,0.06)}
+    .eyebrow{color:var(--accent-1);font-weight:700;letter-spacing:0.6px;font-size:13px}
+    h1{margin:10px 0 8px;font-size:36px;line-height:1.02}
+    h1 .accent{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));-webkit-background-clip:text;background-clip:text;color:transparent}
+    p.lead{color:var(--muted);margin-bottom:18px;font-size:16px}
+    .cta{display:flex;gap:12px}
+    .btn{padding:12px 18px;border-radius:12px;font-weight:700;border:0;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white}
+    .btn.ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--text)}
+
+    .profile-card{background:var(--card);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--glass)}
+    .profile-photo{width:100%;height:220px;border-radius:10px;background:linear-gradient(180deg,var(--accent-2),var(--accent-1));display:grid;place-items:center;font-size:18px;font-weight:800;color:white}
+    .p-meta{display:flex;justify-content:space-between;gap:8px}
+    .profile-photo {
+    width: 100%;
+    height: 350px; /* or whatever height your rectangle is */
+    overflow: hidden;
+    border-radius: 0; /* keeps it rectangular */
+    }
+
+    .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* makes the image fill the box perfectly */
+    border: none; 
+    border-radius: 0;
+    }
+
+
+
+    /* Sections */
+    section{margin-bottom:28px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+    .service{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass)}
+    .service h4{margin:0 0 6px}
+    .service p{margin:0;color:var(--muted);font-size:14px}
+
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .project{border-radius:12px;overflow:hidden;position:relative;border:1px solid var(--glass);background:linear-gradient(180deg,#fff,#fbfdff)}
+    .thumb{height:160px;background-size:cover;background-position:center}
+    .meta{padding:14px}
+    .tag{display:inline-block;padding:6px 8px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:8px;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white}
+
+    .about-wrap{display:flex;gap:20px;align-items:flex-start}
+    .about-left{flex:1}
+    .about-right{width:320px}
+    .skills{display:flex;flex-direction:column;gap:10px}
+    .skill{background:linear-gradient(90deg,rgba(15,23,42,0.02),transparent);padding:10px;border-radius:10px}
+    .bar{height:10px;background:rgba(15,23,42,0.06);border-radius:8px;margin-top:8px;overflow:hidden}
+    .fill{height:100%;border-radius:8px}
+
+    .testi{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass)}
+
+    footer{display:flex;justify-content:space-between;align-items:center;padding-top:18px;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .projects-grid,.grid{grid-template-columns:repeat(2,1fr)}
+      .about-right{width:100%}
+    }
+    @media (max-width:640px){
+      .projects-grid,.grid{grid-template-columns:1fr}
+      nav{display:none}
+      body{padding:18px}
+      h1{font-size:28px}
+    }
+
+    /* small utility */
+    .muted{color:var(--muted)}
+    a.link{color:var(--accent-2);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#">
+        <div class="logo">E</div>
+        <div>
+          <div style="font-weight:700">Emmanuel</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Web Designer & Frontend Dev</div>
+        </div>
+      </a>
+
+      <nav>
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a class="cta" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">Designer • UI/UX • Frontend</div>
+          <h1>Hi — I'm <span class="accent">Emmanuel</span><br><small style="font-weight:600;color:var(--muted);font-size:16px">I design modern, elegant websites that people love to use.</small></h1>
+          <p class="lead">I combine clarity, performance and aesthetic to build premium web experiences — from landing pages to complex product interfaces.</p>
+
+          <div class="cta">
+            <a href="#work" class="btn primary">View Work</a>
+            <a href="#contact" class="btn ghost">Get in touch</a>
+          </div>
+
+          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px">
+            <div>Based in: Nigeria</div>
+            <div>Availability: Freelance</div>
+            <div>Experience: 3+ years</div>
+          </div>
+        </div>
+
+        <aside class="profile-card">
+          <div class="profile-photo">
+          <img src="images/my picture.jpg" alt="Emmanuel">
+        </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700">Emmanuel</div>
+              <div style="font-size:13px;color:var(--muted)">Web Designer & Frontend Dev</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-weight:700;color:var(--accent-2)">Available</div>
+              <div style="font-size:13px;color:var(--muted)">Freelance / Remote</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <a class="btn ghost" href="#contact">Hire me</a>
+            <a class="btn" style="background:transparent;border:1px solid rgba(15,23,42,0.06)">Download CV</a>
+          </div>
+
+          <div style="margin-top:10px;font-size:13px;color:var(--muted)">Social
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <a class="link">Dribbble</a>
+              <a class="link">Behance</a>
+              <a class="link">Github</a>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="services">
+        <h3 style="margin:0 0 12px">What I do</h3>
+        <div class="grid">
+          <div class="service">
+            <h4>UI / Visual Design</h4>
+            <p>Create polished design systems, prototypes and high-fidelity mockups.</p>
+          </div>
+          <div class="service">
+            <h4>Frontend Development</h4>
+            <p>Build accessible, responsive front-ends using modern HTML, CSS and JavaScript.</p>
+          </div>
+          <div class="service">
+            <h4>Brand & Product</h4>
+            <p>Brand identity, landing pages and product-focused design to convert users.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <h3 style="margin:0 0 12px">Selected Projects</h3>
+        <div class="projects-grid">
+          <a href="https://cyberpro308.github.io/sunking/" target="_blank" style="text-decoration:none;color:inherit;">
+          <article class="project">
+          <div class="thumb" style="background-image:url('images/sunking.png');"></div>
+          <div class="meta">
+          <div class="tag">View</div>
+          <h4>Sunking</h4>
+          <p>Solar Company</p>
+        </div>
+        </article>
+        </a>
+
+          <a href="https://cyberpro308.github.io/spacehaven/" target="_blank" style="text-decoration:none;color:inherit;">
+          <article class="project">
+          <div class="thumb" style="background-image:url('images/space\ haven.png');"></div>
+          <div class="meta">
+          <div class="tag">View</div>
+          <h4>Naija Taste Restaurant</h4>
+          <p>A Nigerian cuisine</p>
+        </div>
+        </article>
+        </a>
+
+          <a href="https://cyberpro308.github.io/healthbridge/" target="_blank" style="text-decoration:none;color:inherit;">
+          <article class="project">
+          <div class="thumb" style="background-image:url('images/healthbridge.png');"></div>
+          <div class="meta">
+          <div class="tag">View</div>
+          <h4>HealthBridge</h4>
+          <p>Healthcare services</p>
+        </div>
+        </article>
+        </a>
+        </div>
+      </section>
+
+      <section id="about">
+        <h3 style="margin:0 0 12px">About Me</h3>
+        <div class="about-wrap">
+          <div class="about-left">
+            <p style="margin-top:0;color:var(--muted)">I'm Emmanuel — a web designer & frontend developer focused on clarity, performance and timeless aesthetics. I help startups and brands ship delightful web experiences.</p>
+            <div style="margin-top:12px">
+              <h4 style="margin:0 0 8px">Skills & tools</h4>
+              <div class="skills">
+                <div class="skill"><div style="display:flex;justify-content:space-between;font-weight:700">UI Design <span style="font-weight:600;color:var(--muted)">90%</span></div><div class="bar"><div class="fill" style="width:90%;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));"></div></div></div>
+                <div class="skill"><div style="display:flex;justify-content:space-between;font-weight:700">HTML/CSS <span style="font-weight:600;color:var(--muted)">95%</span></div><div class="bar"><div class="fill" style="width:95%;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));"></div></div></div>
+                <div class="skill"><div style="display:flex;justify-content:space-between;font-weight:700">JavaScript/React <span style="font-weight:600;color:var(--muted)">85%</span></div><div class="bar"><div class="fill" style="width:85%;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="about-right">
+            <div class="testi"><strong>Client feedback</strong><p style="margin:8px 0 0;color:var(--muted);font-size:14px">"Emmanuel turned our messy requirements into a simple product — fast and excellent communication."</p><div style="margin-top:10px;font-size:13px;color:var(--muted)">— Alex, CEO</div></div>
+
+            <div style="margin-top:12px;background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--glass)"><strong>Contact</strong><p style="margin:8px 0 0;color:var(--muted);font-size:13px">Email: <a class="link" href="mailto:olubanwoemmanuel0@gmail.com">olubanwoemmanuel0@gmail.com</a></p><p style="margin:6px 0 0;color:var(--muted);font-size:13px">Phone: +2349057467104</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h3 style="margin:0 0 12px">Let's build something</h3>
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <form style="flex:1;min-width:280px;background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass)">
+            <label style="display:block;margin-bottom:8px;font-weight:700">Your name</label>
+            <input placeholder="Full name" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:transparent;color:inherit;margin-bottom:10px" />
+            <label style="display:block;margin-bottom:8px;font-weight:700">Email</label>
+            <input placeholder="you@email.com" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:transparent;color:inherit;margin-bottom:10px" />
+            <label style="display:block;margin-bottom:8px;font-weight:700">Message</label>
+            <textarea placeholder="Tell me about your project" rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:transparent;color:inherit;margin-bottom:10px"></textarea>
+            <button class="btn primary" type="button">Send message</button>
+          </form>
+
+          <div style="width:320px;min-width:260px;background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass)">
+            <strong>Availability & rates</strong>
+            <p style="margin:8px 0 0;color:var(--muted)">Available for freelance & remote roles. Typical project range: ₦50k — ₦500k, depending on scope.</p>
+
+            <div style="margin-top:12px">
+              <strong>Quick links</strong>
+              <ul style="margin:8px 0 0;padding-left:18px;color:var(--muted)">
+                <li>CV / Resume</li>
+                <li>Dribbble</li>
+                <li>Github</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <strong>Emmanuel</strong> — Web Design & Frontend</div>
+        <div>Built with care • Available for hire</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Minor JS: progressive enhancement for download CV button
+    document.addEventListener('click', function(e){
+      if(e.target && e.target.matches('.download-cv')){
+        alert('Replace this with a real CV download link or implement file download.');
+      }
+    });
+  </script>
+</body>
+</html>

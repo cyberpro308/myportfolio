@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Emmanuel — Web Designer & Frontend Developer</title>
   <meta name="description" content="Portfolio of Emmanuel — web design, UI/UX, frontend development." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -29,6 +30,26 @@
       --dur-fast: 180ms;
       --dur: 320ms;
       --dur-slow: 700ms;
+
+      /* Fluid spacing */
+      --pad-page: clamp(14px, 2.6vw, 36px);
+      --pad-card: clamp(16px, 3vw, 36px);
+      --gap-1: clamp(8px, 1.4vw, 12px);
+      --gap-2: clamp(12px, 2vw, 18px);
+      --gap-3: clamp(16px, 2.6vw, 28px);
+
+      /* Fluid type */
+      --fs-hero: clamp(28px, 3.4vw, 42px);
+      --fs-h3: clamp(18px, 2.0vw, 22px);
+      --fs-lead: clamp(15px, 1.5vw, 17px);
+      --fs-body: clamp(14px, 1.35vw, 16px);
+      --fs-small: clamp(12px, 1.2vw, 13px);
+
+      /* Sizing helpers */
+      --header-top: clamp(10px, 1.6vw, 14px);
+      --btn-pad-y: clamp(10px, 1.2vw, 12px);
+      --btn-pad-x: clamp(12px, 1.6vw, 16px);
+      --icon-btn: 44px;
     }
 
     *{ box-sizing:border-box; }
@@ -44,11 +65,12 @@
       color:var(--text);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-      padding:36px 20px;
+      line-height:1.55;
+      padding: var(--pad-page);
       display:flex;
       justify-content:center;
       overflow-x:hidden;
+      font-size: var(--fs-body);
     }
 
     body.dark {
@@ -76,21 +98,23 @@
 
     header{
       position:sticky;
-      top:14px;
+      top:var(--header-top);
       z-index:50;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      margin-bottom:28px;
-      padding:12px 14px;
+      gap: var(--gap-1);
+      margin-bottom: var(--gap-3);
+      padding: clamp(10px, 1.8vw, 12px) clamp(10px, 1.8vw, 14px);
       border-radius:16px;
       background: color-mix(in srgb, var(--card) 78%, transparent);
       border:1px solid var(--glass);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
       transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+      min-width: 0;
     }
+
     header.is-scrolled{
       box-shadow: var(--shadow-2);
       transform: translateY(-2px);
@@ -102,8 +126,10 @@
       align-items:center;
       text-decoration:none;
       color:inherit;
-      min-width: 180px;
+      min-width: 0;
+      flex: 1 1 auto;
     }
+
     .logo{
       width:56px;
       height:56px;
@@ -117,19 +143,42 @@
       box-shadow:0 10px 30px rgba(99,102,241,0.20);
       transform: translateZ(0);
       transition: transform var(--dur) var(--ease), filter var(--dur) var(--ease);
+      flex: 0 0 auto;
     }
+
     .brand:hover .logo{ transform: translateY(-2px) scale(1.02); filter:saturate(1.1); }
 
-    nav{ display:flex; gap:18px; align-items:center; }
+    .brand-meta{
+      min-width: 0;
+    }
+    .brand-name{
+      font-weight:700;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 32ch;
+    }
+    .brand-sub{
+      font-size: var(--fs-small);
+      color: var(--muted);
+      margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 40ch;
+    }
+
+    nav{ display:flex; gap: clamp(10px, 1.8vw, 18px); align-items:center; }
     nav a{
       color:var(--muted);
       text-decoration:none;
       font-weight:600;
-      font-size:14px;
+      font-size: 14px;
       position:relative;
       padding:8px 10px;
       border-radius:10px;
       transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+      white-space:nowrap;
     }
     nav a:hover{ color:var(--text); background:rgba(99,102,241,0.10); transform: translateY(-1px); }
     nav a.active{ color:var(--text); background:rgba(14,165,164,0.14); }
@@ -144,7 +193,7 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-      padding:0.75rem 1.1rem;
+      padding: var(--btn-pad-y) var(--btn-pad-x);
       border-radius:12px;
       font-weight:700;
       border:0;
@@ -155,6 +204,7 @@
       transform: translateZ(0);
       user-select:none;
       -webkit-tap-highlight-color: transparent;
+      white-space:nowrap;
     }
     .btn:active{ transform: translateY(1px) scale(0.99); }
     .btn.primary{
@@ -165,7 +215,6 @@
     .btn.primary:hover{ transform: translateY(-2px); box-shadow:0 18px 44px rgba(99,102,241,0.26); }
     .btn.ghost{ background:transparent; border:1px solid var(--glass); color:var(--text); }
     .btn.ghost:hover{ transform: translateY(-2px); box-shadow:0 0 0 1px var(--glass), 0 12px 28px rgba(0,0,0,0.12); }
-
     .btn-outline{ border:1px solid var(--glass); color:var(--text); background:transparent; }
     .btn-outline:hover{
       background: color-mix(in srgb, var(--card) 70%, transparent);
@@ -179,16 +228,26 @@
       border-radius: 12px;
     }
 
-    /* MOBILE MENU (hamburger + drawer) */
+    /* Header action group */
     .header-actions{
       display:flex;
       align-items:center;
       gap:10px;
+      flex: 0 0 auto;
     }
 
+    /* Theme button: compact on small screens */
+    .theme-btn .label{ display:inline; }
+    .theme-btn .icon{ display:inline; }
+    @media (max-width: 480px){
+      .theme-btn .label{ display:none; }
+      .theme-btn{ padding: 10px 12px; }
+    }
+
+    /* MOBILE MENU */
     .icon-btn{
-      width:44px;
-      height:44px;
+      width:var(--icon-btn);
+      height:var(--icon-btn);
       border-radius:12px;
       border:1px solid var(--glass);
       background: color-mix(in srgb, var(--card) 82%, transparent);
@@ -200,6 +259,7 @@
       cursor:pointer;
       transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
       -webkit-tap-highlight-color: transparent;
+      flex: 0 0 auto;
     }
     .icon-btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow-2); }
 
@@ -242,7 +302,7 @@
       top:0;
       right:0;
       height:100%;
-      width:min(86vw, 360px);
+      width:min(88vw, 360px);
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border-left:1px solid var(--glass);
       box-shadow: var(--shadow-2);
@@ -286,6 +346,7 @@
       border-color: var(--glass);
       transform: translateX(2px);
     }
+
     .drawer-cta{
       margin-top:auto;
       display:flex;
@@ -297,7 +358,6 @@
 
     body.menu-open .drawer-backdrop{ opacity:1; pointer-events:auto; }
     body.menu-open .drawer{ transform: translateX(0); }
-
     body.menu-open{
       overflow:hidden;
       touch-action: none;
@@ -306,20 +366,22 @@
     /* HERO */
     .hero{
       display:grid;
-      grid-template-columns:1fr 420px;
-      gap:28px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+      gap: var(--gap-3);
       align-items:stretch;
-      margin-bottom:36px;
+      margin-bottom: var(--gap-3);
     }
+
     .hero-card{
       background:var(--card);
       border-radius:var(--radius);
-      padding:36px;
+      padding: var(--pad-card);
       border:1px solid var(--glass);
       box-shadow:var(--shadow);
       position:relative;
       overflow:hidden;
     }
+
     .hero-card::before{
       content:"";
       position:absolute;
@@ -333,29 +395,31 @@
     }
     .hero-card > *{ position:relative; }
 
-    .eyebrow{ color:var(--accent-1); font-weight:700; letter-spacing:0.6px; font-size:13px; }
-    h1{ margin:10px 0 8px; font-size:36px; line-height:1.02; }
+    .eyebrow{ color:var(--accent-1); font-weight:700; letter-spacing:0.6px; font-size: 13px; }
+    h1{ margin:10px 0 8px; font-size: var(--fs-hero); line-height:1.04; }
     h1 .accent{
       background:linear-gradient(90deg,var(--accent-2),var(--accent-1));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
     }
-    p.lead{ color:var(--muted); margin-bottom:18px; font-size:16px; }
-    .cta{ display:flex; gap:12px; flex-wrap:wrap; }
+    p.lead{ color:var(--muted); margin-bottom:18px; font-size: var(--fs-lead); }
+
+    .cta{ display:flex; gap: var(--gap-1); flex-wrap:wrap; }
 
     .profile-card{
       background:var(--card);
       border-radius:12px;
-      padding:22px;
+      padding: clamp(16px, 2.2vw, 22px);
       display:flex;
       flex-direction:column;
       gap:12px;
       border:1px solid var(--glass);
       box-shadow: var(--shadow);
+      min-width: 0;
     }
 
-    /* IMAGE FIX: aspect-ratio + object-position so head isn't cut */
+    /* Photo: less aggressive cropping + small-screen safeguard */
     .profile-photo{
       width:100%;
       aspect-ratio: 4 / 5;
@@ -369,20 +433,37 @@
       width:100%;
       height:100%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center 10%;
       border:none;
       transform: scale(1.02);
       transition: transform var(--dur-slow) var(--ease), filter var(--dur) var(--ease);
       filter: saturate(1.02) contrast(1.02);
+      display:block;
     }
     .profile-card:hover .profile-photo img{ transform: scale(1.06); }
 
-    section{ margin-bottom:28px; }
-    .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    @media (max-width: 420px){
+      .profile-photo{ aspect-ratio: 3 / 4; }
+      .profile-photo img{
+        object-position: center 0%;
+        transform: none;
+      }
+      .profile-card:hover .profile-photo img{ transform: none; }
+    }
+
+    /* Sections */
+    section{ margin-bottom: var(--gap-3); }
+    .section-title{ margin:0 0 12px; font-size: var(--fs-h3); }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gap-2);
+    }
 
     .service{
       background:var(--card);
-      padding:18px;
+      padding: clamp(14px, 2vw, 18px);
       border-radius:12px;
       border:1px solid var(--glass);
       box-shadow: var(--shadow);
@@ -391,9 +472,14 @@
     }
     .service:hover{ transform: translateY(-6px); box-shadow: var(--shadow-2); }
     .service h4{ margin:0 0 6px; }
-    .service p{ margin:0; color:var(--muted); font-size:14px; }
+    .service p{ margin:0; color:var(--muted); font-size: var(--fs-body); }
 
-    .projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .projects-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gap-2);
+    }
+
     .project{
       border-radius:14px;
       overflow:hidden;
@@ -406,8 +492,10 @@
       will-change: transform;
     }
     .project:hover{ transform: translateY(-8px); box-shadow: var(--shadow-2); }
-    .thumb{ height:170px; background-size:cover; background-position:center; transform: scale(1.02); transition: transform var(--dur-slow) var(--ease); }
+
+    .thumb{ height: clamp(150px, 18vw, 190px); background-size:cover; background-position:center; transform: scale(1.02); transition: transform var(--dur-slow) var(--ease); }
     .project:hover .thumb{ transform: scale(1.08); }
+
     .meta{ padding:14px; }
     .tag{
       display:inline-block;
@@ -421,9 +509,20 @@
       letter-spacing:.2px;
     }
 
-    .about-wrap{ display:flex; gap:20px; align-items:flex-start; }
-    .about-left{ flex:1; }
-    .about-right{ width:320px; }
+    .about-wrap{
+      display:flex;
+      gap: var(--gap-2);
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .about-left{ flex: 1 1 520px; min-width: min(520px, 100%); }
+    .about-right{
+      flex: 1 1 320px;
+      min-width: min(320px, 100%);
+      max-width: 420px;
+      width: 100%;
+    }
+
     .skills{ display:flex; flex-direction:column; gap:10px; }
     .skill{
       background:linear-gradient(90deg,rgba(15,23,42,0.02),transparent);
@@ -449,7 +548,34 @@
 
     .testi{
       background:var(--card);
-      padding:18px;
+      padding: clamp(14px, 2vw, 18px);
+      border-radius:12px;
+      border:1px solid var(--glass);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-wrap{
+      display:flex;
+      gap: var(--gap-2);
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+    .contact-form{
+      flex: 1 1 520px;
+      min-width: min(520px, 100%);
+      background:var(--card);
+      padding: clamp(14px, 2vw, 18px);
+      border-radius:12px;
+      border:1px solid var(--glass);
+      box-shadow: var(--shadow);
+    }
+    .contact-side{
+      flex: 1 1 320px;
+      min-width: min(320px, 100%);
+      max-width: 420px;
+      width: 100%;
+      background:var(--card);
+      padding: clamp(14px, 2vw, 18px);
       border-radius:12px;
       border:1px solid var(--glass);
       box-shadow: var(--shadow);
@@ -459,9 +585,11 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding-top:18px;
+      padding-top: var(--gap-2);
       color:var(--muted);
-      font-size:13px;
+      font-size: var(--fs-small);
+      gap: var(--gap-1);
+      flex-wrap:wrap;
     }
 
     .toast{
@@ -530,35 +658,33 @@
     .reveal.delay-2{ transition-delay: 140ms; }
     .reveal.delay-3{ transition-delay: 200ms; }
 
-    @media (max-width:980px){
-      .hero{ grid-template-columns:1fr; }
-      .projects-grid,.grid{ grid-template-columns:repeat(2,1fr); }
-      .about-right{ width:100%; }
-    }
-
-    @media (max-width:640px){
-      .projects-grid,.grid{ grid-template-columns:1fr; }
-      nav{ display:none; }
-      body{ padding:18px; }
-      h1{ font-size:28px; }
-      header{ top:10px; }
-      footer{ flex-direction:column; gap:10px; align-items:flex-start; }
-    }
-
-    @media (max-width: 820px) {
-      .about-wrap { flex-direction: column; gap: 20px; }
-      .about-right { width: 100% !important; }
-    }
-
     .muted{ color:var(--muted); }
     a.link{ color:var(--accent-2); text-decoration:none; font-weight:700; }
     a.link:hover{ text-decoration: underline; }
 
-    /* show hamburger only on mobile */
+    /* Breakpoints */
+    @media (max-width: 960px){
+      .hero{ grid-template-columns: 1fr; }
+      .projects-grid,.grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px){
+      .projects-grid,.grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Mobile header behavior */
     #mobileMenuBtn{ display:none; }
-    @media (max-width:640px){
+    @media (max-width: 640px){
+      nav{ display:none; }
       #mobileMenuBtn{ display:inline-flex; }
-      #darkModeToggle{ padding:0.65rem 0.85rem; }
+    }
+
+    @media (max-width: 420px){
+      header{ padding: 10px; }
+      .logo{ width:50px; height:50px; }
+      .brand-name{ max-width: 22ch; }
+      .brand-sub{ max-width: 26ch; }
+      .icon-btn{ width:42px; height:42px; }
     }
   </style>
 </head>
@@ -568,9 +694,9 @@
     <header id="siteHeader">
       <a class="brand" href="#top" aria-label="Go to top">
         <div class="logo" aria-hidden="true">E</div>
-        <div>
-          <div style="font-weight:700">Emmanuel</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">Web Designer & Frontend Dev</div>
+        <div class="brand-meta">
+          <div class="brand-name">Emmanuel</div>
+          <div class="brand-sub">Web Designer & Frontend Dev</div>
         </div>
       </a>
 
@@ -582,7 +708,10 @@
       </nav>
 
       <div class="header-actions">
-        <button id="darkModeToggle" class="btn ghost" aria-label="Toggle theme">🌙 Dark Mode</button>
+        <button id="darkModeToggle" class="btn ghost theme-btn" aria-label="Toggle theme">
+          <span class="icon" aria-hidden="true">🌙</span>
+          <span class="label">Dark Mode</span>
+        </button>
 
         <button id="mobileMenuBtn" class="icon-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
           <span class="hamburger" aria-hidden="true">
@@ -592,7 +721,6 @@
       </div>
     </header>
 
-    <!-- Mobile drawer -->
     <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
     <aside class="drawer" id="mobileDrawer" hidden role="dialog" aria-modal="true" aria-label="Mobile menu">
       <div class="drawer-head">
@@ -603,9 +731,7 @@
             <div style="font-size:12px;color:var(--muted);margin-top:2px">Menu</div>
           </div>
         </div>
-        <button class="icon-btn" id="drawerCloseBtn" type="button" aria-label="Close menu">
-          ✕
-        </button>
+        <button class="icon-btn" id="drawerCloseBtn" type="button" aria-label="Close menu">✕</button>
       </div>
 
       <nav class="drawer-nav" aria-label="Mobile">
@@ -631,7 +757,7 @@
           <div class="eyebrow">Designer • UI/UX • Frontend</div>
           <h1>
             Hi — I'm <span class="accent">Emmanuel</span><br>
-            <small style="font-weight:600;color:var(--muted);font-size:16px">
+            <small style="font-weight:600;color:var(--muted);font-size: var(--fs-lead);">
               I design modern, elegant websites that people love to use.
             </small>
           </h1>
@@ -644,7 +770,7 @@
             <a href="#contact" class="btn ghost">Get in touch</a>
           </div>
 
-          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px">
+          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size: var(--fs-small);">
             <div>Based in: Nigeria</div>
             <div>Availability: Freelance</div>
             <div>Experience: 3+ years</div>
@@ -653,17 +779,17 @@
 
         <aside class="profile-card reveal delay-1" data-reveal>
           <div class="profile-photo">
-            <img src="images/my picture.png" alt="Emmanuel's picture" loading="lazy">
+            <img src="images/my picture.png" alt="Emmanuel" loading="lazy">
           </div>
 
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div style="font-weight:700">Emmanuel</div>
-              <div style="font-size:13px;color:var(--muted)">Web Designer & Frontend Dev</div>
+          <div style="display:flex;justify-content:space-between;align-items:center; gap:12px;">
+            <div style="min-width:0;">
+              <div style="font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Emmanuel</div>
+              <div style="font-size: var(--fs-small);color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Web Designer & Frontend Dev</div>
             </div>
-            <div style="text-align:right">
+            <div style="text-align:right; flex: 0 0 auto;">
               <div style="font-weight:800;color:var(--accent-2)">Available</div>
-              <div style="font-size:13px;color:var(--muted)">Freelance / Remote</div>
+              <div style="font-size: var(--fs-small);color:var(--muted)">Freelance / Remote</div>
             </div>
           </div>
 
@@ -680,7 +806,7 @@
             </a>
           </div>
 
-          <div style="margin-top:10px;font-size:13px;color:var(--muted)">
+          <div style="margin-top:10px;font-size: var(--fs-small);color:var(--muted)">
             Social
             <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
               <a class="link" href="#" aria-label="Dribbble">Dribbble</a>
@@ -692,7 +818,7 @@
       </section>
 
       <section id="services" class="reveal" data-reveal>
-        <h3 style="margin:0 0 12px">What I do</h3>
+        <h3 class="section-title">What I do</h3>
         <div class="grid">
           <div class="service reveal delay-1" data-reveal>
             <h4>UI / Visual Design</h4>
@@ -710,7 +836,7 @@
       </section>
 
       <section id="work" class="reveal" data-reveal>
-        <h3 style="margin:0 0 12px">Selected Projects</h3>
+        <h3 class="section-title">Selected Projects</h3>
 
         <div class="projects-grid">
           <a href="https://cyberpro308.github.io/sunking/" style="text-decoration:none;color:inherit;">
@@ -749,7 +875,7 @@
       </section>
 
       <section id="about" class="reveal" data-reveal>
-        <h3 style="margin:0 0 12px">About Me</h3>
+        <h3 class="section-title">About Me</h3>
 
         <div class="about-wrap">
           <div class="about-left">
@@ -795,28 +921,28 @@
           <aside class="about-right">
             <div class="testi">
               <strong>Client feedback</strong>
-              <p style="margin:8px 0 0;color:var(--muted);font-size:14px">
+              <p style="margin:8px 0 0;color:var(--muted);font-size: var(--fs-body);">
                 "Emmanuel turned our messy requirements into a simple product — fast and excellent communication."
               </p>
-              <div style="margin-top:10px;font-size:13px;color:var(--muted)">— Alex, CEO</div>
+              <div style="margin-top:10px;font-size: var(--fs-small);color:var(--muted)">— Alex, CEO</div>
             </div>
 
             <div style="margin-top:12px;background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--glass); box-shadow: var(--shadow);">
               <strong>Contact</strong>
-              <p style="margin:8px 0 0;color:var(--muted);font-size:13px">
+              <p style="margin:8px 0 0;color:var(--muted);font-size: var(--fs-small);">
                 Email: <a class="link" href="mailto:olubanwoemmanuel0@gmail.com">olubanwoemmanuel0@gmail.com</a>
               </p>
-              <p style="margin:6px 0 0;color:var(--muted);font-size:13px">Phone: +2349057467104</p>
+              <p style="margin:6px 0 0;color:var(--muted);font-size: var(--fs-small);">Phone: +2349057467104</p>
             </div>
           </aside>
         </div>
       </section>
 
       <section id="contact" class="reveal" data-reveal>
-        <h3 style="margin:0 0 12px">Let's build something</h3>
+        <h3 class="section-title">Let's build something</h3>
 
-        <div style="display:flex;gap:18px;flex-wrap:wrap">
-          <form id="contactForm" style="flex:1;min-width:280px;background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass); box-shadow: var(--shadow);">
+        <div class="contact-wrap">
+          <form id="contactForm" class="contact-form">
             <label style="display:block;margin-bottom:8px;font-weight:800" for="name">Your name</label>
             <input id="name" name="name" required placeholder="Full name"
                    style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--glass-2);background:transparent;color:inherit;margin-bottom:10px" />
@@ -832,7 +958,7 @@
             <button class="btn primary" type="submit">Send message</button>
           </form>
 
-          <div style="width:320px;min-width:260px;background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass); box-shadow: var(--shadow);">
+          <div class="contact-side">
             <strong>Availability & rates</strong>
             <p style="margin:8px 0 0;color:var(--muted)">
               Available for freelance & remote roles. Typical project range: ₦50k — ₦500k, depending on scope.
@@ -842,8 +968,8 @@
               <strong>Quick links</strong>
               <ul style="margin:8px 0 0;padding-left:18px;color:var(--muted)">
                 <li><a class="link" href="assets/Olubanwo_Emmanuel_CV.pdf" download>CV / Resume</a></li>
-                <li><a class="link" href="#" >Dribbble</a></li>
-                <li><a class="link" href="#" >Github</a></li>
+                <li><a class="link" href="#">Dribbble</a></li>
+                <li><a class="link" href="#">Github</a></li>
               </ul>
             </div>
           </div>
@@ -872,15 +998,26 @@
       const body = document.body;
 
       const toggle = document.getElementById('darkModeToggle');
+      const iconSpan = toggle?.querySelector('.icon');
+      const labelSpan = toggle?.querySelector('.label');
+
+      const setThemeLabel = (isDark) => {
+        if (iconSpan) iconSpan.textContent = isDark ? '☀️' : '🌙';
+        if (labelSpan) labelSpan.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      };
+
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'dark') {
         body.classList.add('dark');
-        toggle.textContent = '☀️ Light Mode';
+        setThemeLabel(true);
+      } else {
+        setThemeLabel(false);
       }
-      toggle.addEventListener('click', () => {
+
+      toggle?.addEventListener('click', () => {
         body.classList.toggle('dark');
         const isDark = body.classList.contains('dark');
-        toggle.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+        setThemeLabel(isDark);
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         toast('Theme updated', isDark ? 'Dark mode enabled.' : 'Light mode enabled.');
       });
@@ -890,17 +1027,18 @@
 
       const onScroll = () => {
         const y = window.scrollY || 0;
-        header.classList.toggle('is-scrolled', y > 12);
-        toTopBtn.classList.toggle('show', y > 450);
+        header?.classList.toggle('is-scrolled', y > 12);
+        toTopBtn?.classList.toggle('show', y > 450);
       };
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
 
-      toTopBtn.addEventListener('click', () => {
+      toTopBtn?.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
       if (!reduceMotion && 'IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
@@ -920,12 +1058,14 @@
 
       const skills = document.getElementById('skills');
       const fills = Array.from(document.querySelectorAll('.fill[data-fill]'));
+
       const fillBars = () => {
         fills.forEach((el) => {
           const pct = Number(el.getAttribute('data-fill') || 0);
           el.style.width = Math.max(0, Math.min(100, pct)) + '%';
         });
       };
+
       if (!reduceMotion && skills && 'IntersectionObserver' in window) {
         const sio = new IntersectionObserver((entries) => {
           if (entries.some(e => e.isIntersecting)) {
@@ -1011,7 +1151,6 @@
         });
       }
 
-      // TOAST
       const toastEl = document.getElementById('toast');
       const toastTitleEl = document.getElementById('toastTitle');
       const toastMsgEl = document.getElementById('toastMsg');
@@ -1026,7 +1165,6 @@
         toastTimer = window.setTimeout(() => toastEl.classList.remove('show'), 2600);
       }
 
-      // MOBILE DRAWER LOGIC
       const menuBtn = document.getElementById('mobileMenuBtn');
       const drawer = document.getElementById('mobileDrawer');
       const backdrop = document.getElementById('drawerBackdrop');
@@ -1036,6 +1174,7 @@
       let lastFocused = null;
 
       function setDrawerHidden(hidden) {
+        if (!drawer || !backdrop) return;
         drawer.hidden = hidden;
         backdrop.hidden = hidden;
       }
@@ -1076,15 +1215,12 @@
       closeBtn?.addEventListener('click', closeMenu);
       backdrop?.addEventListener('click', closeMenu);
 
-      drawerLinks.forEach((a) => {
-        a.addEventListener('click', () => closeMenu());
-      });
+      drawerLinks.forEach((a) => a.addEventListener('click', closeMenu));
 
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && body.classList.contains('menu-open')) closeMenu();
       });
 
-      // prevent background scroll on iOS by capturing touchmove on backdrop/drawer
       [backdrop, drawer].forEach((el) => {
         el?.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
       });

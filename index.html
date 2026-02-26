@@ -1,1230 +1,434 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Emmanuel — Web Designer & Frontend Developer</title>
-  <meta name="description" content="Portfolio of Emmanuel — web design, UI/UX, frontend development." />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emmanuel - Web Designer and Frontend Developer</title>
+  <meta name="description" content="Portfolio of Emmanuel - web design, UI/UX, and frontend development.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg: #f5faff;
-      --card: #ffffff;
-      --muted:#6b7280;
-      --text:#0f172a;
-      --accent-1: #0ea5a4;
-      --accent-2: #6366f1;
-      --glass: rgba(15,23,42,0.06);
-      --glass-2: rgba(15,23,42,0.10);
-      --radius:14px;
-      --maxw:1100px;
-
-      --shadow: 0 12px 40px rgba(2,6,23,0.06);
-      --shadow-2: 0 18px 60px rgba(2,6,23,0.12);
-
-      --ease: cubic-bezier(.22,1,.36,1);
-      --dur-fast: 180ms;
-      --dur: 320ms;
-      --dur-slow: 700ms;
-
-      /* Fluid spacing */
-      --pad-page: clamp(14px, 2.6vw, 36px);
-      --pad-card: clamp(16px, 3vw, 36px);
-      --gap-1: clamp(8px, 1.4vw, 12px);
-      --gap-2: clamp(12px, 2vw, 18px);
-      --gap-3: clamp(16px, 2.6vw, 28px);
-
-      /* Fluid type */
-      --fs-hero: clamp(28px, 3.4vw, 42px);
-      --fs-h3: clamp(18px, 2.0vw, 22px);
-      --fs-lead: clamp(15px, 1.5vw, 17px);
-      --fs-body: clamp(14px, 1.35vw, 16px);
-      --fs-small: clamp(12px, 1.2vw, 13px);
-
-      /* Sizing helpers */
-      --header-top: clamp(10px, 1.6vw, 14px);
-      --btn-pad-y: clamp(10px, 1.2vw, 12px);
-      --btn-pad-x: clamp(12px, 1.6vw, 16px);
-      --icon-btn: 44px;
-    }
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    html{ scroll-behavior:smooth; }
-
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(99,102,241,.18), transparent 50%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(14,165,164,.18), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.55;
-      padding: var(--pad-page);
-      display:flex;
-      justify-content:center;
-      overflow-x:hidden;
-      font-size: var(--fs-body);
-    }
-
-    body.dark {
-      --bg: #0b1220;
-      --card: #121a2a;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --glass: rgba(255,255,255,0.08);
-      --glass-2: rgba(255,255,255,0.14);
-      --shadow: 0 14px 50px rgba(0,0,0,0.30);
-      --shadow-2: 0 18px 80px rgba(0,0,0,0.45);
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      html{ scroll-behavior:auto; }
-      *, *::before, *::after{
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.001ms !important;
-        scroll-behavior:auto !important;
-      }
-    }
-
-    .wrap{ width:100%; max-width:var(--maxw); }
-
-    header{
-      position:sticky;
-      top:var(--header-top);
-      z-index:50;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: var(--gap-1);
-      margin-bottom: var(--gap-3);
-      padding: clamp(10px, 1.8vw, 12px) clamp(10px, 1.8vw, 14px);
-      border-radius:16px;
-      background: color-mix(in srgb, var(--card) 78%, transparent);
-      border:1px solid var(--glass);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
-      min-width: 0;
-    }
-
-    header.is-scrolled{
-      box-shadow: var(--shadow-2);
-      transform: translateY(-2px);
-    }
-
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      text-decoration:none;
-      color:inherit;
-      min-width: 0;
-      flex: 1 1 auto;
-    }
-
-    .logo{
-      width:56px;
-      height:56px;
-      border-radius:12px;
-      background:linear-gradient(135deg,var(--accent-2),var(--accent-1));
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      font-size:20px;
-      color:white;
-      box-shadow:0 10px 30px rgba(99,102,241,0.20);
-      transform: translateZ(0);
-      transition: transform var(--dur) var(--ease), filter var(--dur) var(--ease);
-      flex: 0 0 auto;
-    }
-
-    .brand:hover .logo{ transform: translateY(-2px) scale(1.02); filter:saturate(1.1); }
-
-    .brand-meta{
-      min-width: 0;
-    }
-    .brand-name{
-      font-weight:700;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width: 32ch;
-    }
-    .brand-sub{
-      font-size: var(--fs-small);
-      color: var(--muted);
-      margin-top:2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width: 40ch;
-    }
-
-    nav{ display:flex; gap: clamp(10px, 1.8vw, 18px); align-items:center; }
-    nav a{
-      color:var(--muted);
-      text-decoration:none;
-      font-weight:600;
-      font-size: 14px;
-      position:relative;
-      padding:8px 10px;
-      border-radius:10px;
-      transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
-      white-space:nowrap;
-    }
-    nav a:hover{ color:var(--text); background:rgba(99,102,241,0.10); transform: translateY(-1px); }
-    nav a.active{ color:var(--text); background:rgba(14,165,164,0.14); }
-    nav a.cta{
-      background:linear-gradient(90deg,var(--accent-2),var(--accent-1));
-      color:white;
-      box-shadow:0 10px 26px rgba(14,165,164,0.18);
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding: var(--btn-pad-y) var(--btn-pad-x);
-      border-radius:12px;
-      font-weight:700;
-      border:0;
-      cursor:pointer;
-      text-decoration:none;
-      color:inherit;
-      transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
-      transform: translateZ(0);
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      white-space:nowrap;
-    }
-    .btn:active{ transform: translateY(1px) scale(0.99); }
-    .btn.primary{
-      background:linear-gradient(90deg,var(--accent-2),var(--accent-1));
-      color:white;
-      box-shadow:0 12px 26px rgba(99,102,241,0.20);
-    }
-    .btn.primary:hover{ transform: translateY(-2px); box-shadow:0 18px 44px rgba(99,102,241,0.26); }
-    .btn.ghost{ background:transparent; border:1px solid var(--glass); color:var(--text); }
-    .btn.ghost:hover{ transform: translateY(-2px); box-shadow:0 0 0 1px var(--glass), 0 12px 28px rgba(0,0,0,0.12); }
-    .btn-outline{ border:1px solid var(--glass); color:var(--text); background:transparent; }
-    .btn-outline:hover{
-      background: color-mix(in srgb, var(--card) 70%, transparent);
-      box-shadow:0 0 0 1px var(--glass), 0 12px 28px rgba(0,0,0,0.14);
-      transform: translateY(-2px);
-    }
-
-    :focus-visible{
-      outline: 3px solid color-mix(in srgb, var(--accent-2) 55%, transparent);
-      outline-offset: 2px;
-      border-radius: 12px;
-    }
-
-    /* Header action group */
-    .header-actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex: 0 0 auto;
-    }
-
-    /* Theme button: compact on small screens */
-    .theme-btn .label{ display:inline; }
-    .theme-btn .icon{ display:inline; }
-    @media (max-width: 480px){
-      .theme-btn .label{ display:none; }
-      .theme-btn{ padding: 10px 12px; }
-    }
-
-    /* MOBILE MENU */
-    .icon-btn{
-      width:var(--icon-btn);
-      height:var(--icon-btn);
-      border-radius:12px;
-      border:1px solid var(--glass);
-      background: color-mix(in srgb, var(--card) 82%, transparent);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
-      -webkit-tap-highlight-color: transparent;
-      flex: 0 0 auto;
-    }
-    .icon-btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow-2); }
-
-    .hamburger{
-      position: relative;
-      width: 18px;
-      height: 14px;
-      display:block;
-    }
-    .hamburger span{
-      position:absolute;
-      left:0;
-      right:0;
-      height:2px;
-      border-radius:999px;
-      background: var(--text);
-      transition: transform var(--dur) var(--ease), top var(--dur) var(--ease), opacity var(--dur) var(--ease);
-    }
-    .hamburger span:nth-child(1){ top:0; }
-    .hamburger span:nth-child(2){ top:6px; }
-    .hamburger span:nth-child(3){ top:12px; }
-
-    body.menu-open #mobileMenuBtn .hamburger span:nth-child(1){ top:6px; transform: rotate(45deg); }
-    body.menu-open #mobileMenuBtn .hamburger span:nth-child(2){ opacity:0; }
-    body.menu-open #mobileMenuBtn .hamburger span:nth-child(3){ top:6px; transform: rotate(-45deg); }
-
-    .drawer-backdrop{
-      position:fixed;
-      inset:0;
-      background: rgba(2,6,23,0.45);
-      backdrop-filter: blur(6px);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity var(--dur) var(--ease);
-      z-index: 200;
-    }
-
-    .drawer{
-      position:fixed;
-      top:0;
-      right:0;
-      height:100%;
-      width:min(88vw, 360px);
-      background: color-mix(in srgb, var(--card) 92%, transparent);
-      border-left:1px solid var(--glass);
-      box-shadow: var(--shadow-2);
-      transform: translateX(110%);
-      transition: transform var(--dur) var(--ease);
-      z-index: 210;
-      display:flex;
-      flex-direction:column;
-      padding: 16px;
-    }
-
-    .drawer-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--glass);
-      margin-bottom: 12px;
-    }
-
-    .drawer-nav{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      padding: 6px 0 12px;
-    }
-
-    .drawer-nav a{
-      text-decoration:none;
-      color:var(--text);
-      font-weight:800;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border:1px solid transparent;
-      background: transparent;
-      transition: transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
-    }
-    .drawer-nav a:hover{
-      background: rgba(99,102,241,0.10);
-      border-color: var(--glass);
-      transform: translateX(2px);
-    }
-
-    .drawer-cta{
-      margin-top:auto;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      padding-top: 12px;
-      border-top: 1px solid var(--glass);
-    }
-
-    body.menu-open .drawer-backdrop{ opacity:1; pointer-events:auto; }
-    body.menu-open .drawer{ transform: translateX(0); }
-    body.menu-open{
-      overflow:hidden;
-      touch-action: none;
-    }
-
-    /* HERO */
-    .hero{
-      display:grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
-      gap: var(--gap-3);
-      align-items:stretch;
-      margin-bottom: var(--gap-3);
-    }
-
-    .hero-card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding: var(--pad-card);
-      border:1px solid var(--glass);
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .hero-card::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(800px 200px at 30% 0%, rgba(99,102,241,0.20), transparent 50%),
-        radial-gradient(700px 260px at 70% 10%, rgba(14,165,164,0.18), transparent 55%);
-      pointer-events:none;
-      opacity:.65;
-      transform: translateY(-16px);
-    }
-    .hero-card > *{ position:relative; }
-
-    .eyebrow{ color:var(--accent-1); font-weight:700; letter-spacing:0.6px; font-size: 13px; }
-    h1{ margin:10px 0 8px; font-size: var(--fs-hero); line-height:1.04; }
-    h1 .accent{
-      background:linear-gradient(90deg,var(--accent-2),var(--accent-1));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    p.lead{ color:var(--muted); margin-bottom:18px; font-size: var(--fs-lead); }
-
-    .cta{ display:flex; gap: var(--gap-1); flex-wrap:wrap; }
-
-    .profile-card{
-      background:var(--card);
-      border-radius:12px;
-      padding: clamp(16px, 2.2vw, 22px);
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      border:1px solid var(--glass);
-      box-shadow: var(--shadow);
-      min-width: 0;
-    }
-
-    /* Photo: less aggressive cropping + small-screen safeguard */
-    .profile-photo{
-      width:100%;
-      aspect-ratio: 4 / 5;
-      height:auto;
-      overflow:hidden;
-      border-radius:12px;
-      background:linear-gradient(180deg,var(--accent-2),var(--accent-1));
-      position:relative;
-    }
-    .profile-photo img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      object-position: center 10%;
-      border:none;
-      transform: scale(1.02);
-      transition: transform var(--dur-slow) var(--ease), filter var(--dur) var(--ease);
-      filter: saturate(1.02) contrast(1.02);
-      display:block;
-    }
-    .profile-card:hover .profile-photo img{ transform: scale(1.06); }
-
-    @media (max-width: 420px){
-      .profile-photo{ aspect-ratio: 3 / 4; }
-      .profile-photo img{
-        object-position: center 0%;
-        transform: none;
-      }
-      .profile-card:hover .profile-photo img{ transform: none; }
-    }
-
-    /* Sections */
-    section{ margin-bottom: var(--gap-3); }
-    .section-title{ margin:0 0 12px; font-size: var(--fs-h3); }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--gap-2);
-    }
-
-    .service{
-      background:var(--card);
-      padding: clamp(14px, 2vw, 18px);
-      border-radius:12px;
-      border:1px solid var(--glass);
-      box-shadow: var(--shadow);
-      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-      will-change: transform;
-    }
-    .service:hover{ transform: translateY(-6px); box-shadow: var(--shadow-2); }
-    .service h4{ margin:0 0 6px; }
-    .service p{ margin:0; color:var(--muted); font-size: var(--fs-body); }
-
-    .projects-grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--gap-2);
-    }
-
-    .project{
-      border-radius:14px;
-      overflow:hidden;
-      position:relative;
-      border:1px solid var(--glass);
-      background:var(--card);
-      box-shadow: var(--shadow);
-      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-      transform: translateZ(0);
-      will-change: transform;
-    }
-    .project:hover{ transform: translateY(-8px); box-shadow: var(--shadow-2); }
-
-    .thumb{ height: clamp(150px, 18vw, 190px); background-size:cover; background-position:center; transform: scale(1.02); transition: transform var(--dur-slow) var(--ease); }
-    .project:hover .thumb{ transform: scale(1.08); }
-
-    .meta{ padding:14px; }
-    .tag{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      margin-bottom:8px;
-      background:linear-gradient(90deg,var(--accent-2),var(--accent-1));
-      color:white;
-      letter-spacing:.2px;
-    }
-
-    .about-wrap{
-      display:flex;
-      gap: var(--gap-2);
-      align-items:flex-start;
-      flex-wrap:wrap;
-    }
-    .about-left{ flex: 1 1 520px; min-width: min(520px, 100%); }
-    .about-right{
-      flex: 1 1 320px;
-      min-width: min(320px, 100%);
-      max-width: 420px;
-      width: 100%;
-    }
-
-    .skills{ display:flex; flex-direction:column; gap:10px; }
-    .skill{
-      background:linear-gradient(90deg,rgba(15,23,42,0.02),transparent);
-      padding:10px;
-      border-radius:10px;
-      border:1px solid rgba(0,0,0,0.00);
-    }
-    .bar{
-      height:10px;
-      background:rgba(15,23,42,0.06);
-      border-radius:8px;
-      margin-top:8px;
-      overflow:hidden;
-      border:1px solid var(--glass);
-    }
-    .fill{
-      height:100%;
-      border-radius:8px;
-      width:0%;
-      transform-origin:left;
-      transition: width 900ms var(--ease);
-    }
-
-    .testi{
-      background:var(--card);
-      padding: clamp(14px, 2vw, 18px);
-      border-radius:12px;
-      border:1px solid var(--glass);
-      box-shadow: var(--shadow);
-    }
-
-    .contact-wrap{
-      display:flex;
-      gap: var(--gap-2);
-      flex-wrap:wrap;
-      align-items:flex-start;
-    }
-    .contact-form{
-      flex: 1 1 520px;
-      min-width: min(520px, 100%);
-      background:var(--card);
-      padding: clamp(14px, 2vw, 18px);
-      border-radius:12px;
-      border:1px solid var(--glass);
-      box-shadow: var(--shadow);
-    }
-    .contact-side{
-      flex: 1 1 320px;
-      min-width: min(320px, 100%);
-      max-width: 420px;
-      width: 100%;
-      background:var(--card);
-      padding: clamp(14px, 2vw, 18px);
-      border-radius:12px;
-      border:1px solid var(--glass);
-      box-shadow: var(--shadow);
-    }
-
-    footer{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding-top: var(--gap-2);
-      color:var(--muted);
-      font-size: var(--fs-small);
-      gap: var(--gap-1);
-      flex-wrap:wrap;
-    }
-
-    .toast{
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 1000;
-      background: color-mix(in srgb, var(--card) 86%, transparent);
-      border: 1px solid var(--glass);
-      box-shadow: var(--shadow-2);
-      backdrop-filter: blur(10px);
-      border-radius: 14px;
-      padding: 12px 14px;
-      max-width: 340px;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      transform: translateY(16px);
-      opacity: 0;
-      pointer-events:none;
-      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
-    }
-    .toast.show{ transform: translateY(0); opacity:1; pointer-events:auto; }
-    .toast .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
-      margin-top:6px;
-      flex: 0 0 auto;
-    }
-    .toast .t-title{ font-weight:800; font-size:13px; margin:0; }
-    .toast .t-msg{ margin:2px 0 0; color:var(--muted); font-size:13px; }
-
-    .to-top{
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      z-index: 999;
-      border:1px solid var(--glass);
-      background: color-mix(in srgb, var(--card) 82%, transparent);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-      border-radius: 14px;
-      padding: 10px 12px;
-      opacity: 0;
-      transform: translateY(14px);
-      pointer-events:none;
-      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
-    }
-    .to-top.show{
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events:auto;
-    }
-
-    .reveal{
-      opacity:0;
-      transform: translateY(14px);
-      transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
-      will-change: opacity, transform;
-    }
-    .reveal.in{
-      opacity:1;
-      transform: translateY(0);
-    }
-    .reveal.delay-1{ transition-delay: 80ms; }
-    .reveal.delay-2{ transition-delay: 140ms; }
-    .reveal.delay-3{ transition-delay: 200ms; }
-
-    .muted{ color:var(--muted); }
-    a.link{ color:var(--accent-2); text-decoration:none; font-weight:700; }
-    a.link:hover{ text-decoration: underline; }
-
-    /* Breakpoints */
-    @media (max-width: 960px){
-      .hero{ grid-template-columns: 1fr; }
-      .projects-grid,.grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 720px){
-      .projects-grid,.grid{ grid-template-columns: 1fr; }
-    }
-
-    /* Mobile header behavior */
-    #mobileMenuBtn{ display:none; }
-    @media (max-width: 640px){
-      nav{ display:none; }
-      #mobileMenuBtn{ display:inline-flex; }
-    }
-
-    @media (max-width: 420px){
-      header{ padding: 10px; }
-      .logo{ width:50px; height:50px; }
-      .brand-name{ max-width: 22ch; }
-      .brand-sub{ max-width: 26ch; }
-      .icon-btn{ width:42px; height:42px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div class="wrap">
-    <header id="siteHeader">
-      <a class="brand" href="#top" aria-label="Go to top">
-        <div class="logo" aria-hidden="true">E</div>
-        <div class="brand-meta">
-          <div class="brand-name">Emmanuel</div>
-          <div class="brand-sub">Web Designer & Frontend Dev</div>
-        </div>
-      </a>
-
-      <nav aria-label="Primary">
-        <a href="#work">Work</a>
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a class="cta" href="#contact">Contact</a>
-      </nav>
-
-      <div class="header-actions">
-        <button id="darkModeToggle" class="btn ghost theme-btn" aria-label="Toggle theme">
-          <span class="icon" aria-hidden="true">🌙</span>
-          <span class="label">Dark Mode</span>
-        </button>
-
-        <button id="mobileMenuBtn" class="icon-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
-          <span class="hamburger" aria-hidden="true">
-            <span></span><span></span><span></span>
-          </span>
-        </button>
-      </div>
-    </header>
-
-    <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
-    <aside class="drawer" id="mobileDrawer" hidden role="dialog" aria-modal="true" aria-label="Mobile menu">
-      <div class="drawer-head">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div class="logo" style="width:42px;height:42px;border-radius:12px;font-size:16px;">E</div>
-          <div>
-            <div style="font-weight:800; line-height:1;">Emmanuel</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px">Menu</div>
-          </div>
-        </div>
-        <button class="icon-btn" id="drawerCloseBtn" type="button" aria-label="Close menu">✕</button>
-      </div>
-
-      <nav class="drawer-nav" aria-label="Mobile">
-        <a href="#work" data-drawer-link>Work</a>
-        <a href="#services" data-drawer-link>Services</a>
-        <a href="#about" data-drawer-link>About</a>
-        <a href="#contact" data-drawer-link>Contact</a>
-      </nav>
-
-      <div class="drawer-cta">
-        <a class="btn primary" href="https://wa.me/2349057467104?text=Hello%20Emmanuel,%20I%20am%20interested%20in%20hiring%20you" target="_blank" rel="noreferrer">
-          Hire me
-        </a>
-        <a class="btn btn-outline" href="assets/Olubanwo_Emmanuel_CV.pdf" download="Olubanwo_Emmanuel_CV.pdf">
-          Download CV
-        </a>
-      </div>
-    </aside>
-
-    <main id="top">
-      <section class="hero">
-        <div class="hero-card reveal in" data-reveal>
-          <div class="eyebrow">Designer • UI/UX • Frontend</div>
-          <h1>
-            Hi — I'm <span class="accent">Emmanuel</span><br>
-            <small style="font-weight:600;color:var(--muted);font-size: var(--fs-lead);">
-              I design modern, elegant websites that people love to use.
-            </small>
-          </h1>
-          <p class="lead">
-            I combine clarity, performance and aesthetic to build premium web experiences — from landing pages to complex product interfaces.
-          </p>
-
-          <div class="cta">
-            <a href="#work" class="btn primary">View Work</a>
-            <a href="#contact" class="btn ghost">Get in touch</a>
-          </div>
-
-          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size: var(--fs-small);">
-            <div>Based in: Nigeria</div>
-            <div>Availability: Freelance</div>
-            <div>Experience: 3+ years</div>
-          </div>
-        </div>
-
-        <aside class="profile-card reveal delay-1" data-reveal>
-          <div class="profile-photo">
-            <img src="images/my picture.png" alt="Emmanuel" loading="lazy">
-          </div>
-
-          <div style="display:flex;justify-content:space-between;align-items:center; gap:12px;">
-            <div style="min-width:0;">
-              <div style="font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Emmanuel</div>
-              <div style="font-size: var(--fs-small);color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Web Designer & Frontend Dev</div>
-            </div>
-            <div style="text-align:right; flex: 0 0 auto;">
-              <div style="font-weight:800;color:var(--accent-2)">Available</div>
-              <div style="font-size: var(--fs-small);color:var(--muted)">Freelance / Remote</div>
-            </div>
-          </div>
-
-          <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
-            <a class="btn ghost"
-               href="https://wa.me/2349057467104?text=Hello%20Emmanuel,%20I%20am%20interested%20in%20hiring%20you"
-               target="_blank" rel="noreferrer">
-              Hire me
-            </a>
-            <a class="btn btn-outline"
-               href="assets/Olubanwo_Emmanuel_CV.pdf"
-               download="Olubanwo_Emmanuel_CV.pdf">
-              Download CV
-            </a>
-          </div>
-
-          <div style="margin-top:10px;font-size: var(--fs-small);color:var(--muted)">
-            Social
-            <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
-              <a class="link" href="#" aria-label="Dribbble">Dribbble</a>
-              <a class="link" href="#" aria-label="Behance">Behance</a>
-              <a class="link" href="#" aria-label="GitHub">Github</a>
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section id="services" class="reveal" data-reveal>
-        <h3 class="section-title">What I do</h3>
-        <div class="grid">
-          <div class="service reveal delay-1" data-reveal>
-            <h4>UI / Visual Design</h4>
-            <p>Create polished design systems, prototypes and high-fidelity mockups.</p>
-          </div>
-          <div class="service reveal delay-2" data-reveal>
-            <h4>Frontend Development</h4>
-            <p>Build accessible, responsive front-ends using modern HTML, CSS and JavaScript.</p>
-          </div>
-          <div class="service reveal delay-3" data-reveal>
-            <h4>Brand & Product</h4>
-            <p>Brand identity, landing pages and product-focused design to convert users.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="work" class="reveal" data-reveal>
-        <h3 class="section-title">Selected Projects</h3>
-
-        <div class="projects-grid">
-          <a href="https://cyberpro308.github.io/sunking/" style="text-decoration:none;color:inherit;">
-            <article class="project" data-tilt>
-              <div class="thumb" style="background-image:url('images/sunking.png');"></div>
-              <div class="meta">
-                <div class="tag">View</div>
-                <h4 style="margin:0 0 4px;">Sunking</h4>
-                <p class="muted" style="margin:0;">Solar Company</p>
-              </div>
-            </article>
-          </a>
-
-          <a href="https://cyberpro308.github.io/spacehaven/" style="text-decoration:none;color:inherit;">
-            <article class="project" data-tilt>
-              <div class="thumb" style="background-image:url('images/space%20haven.png');"></div>
-              <div class="meta">
-                <div class="tag">View</div>
-                <h4 style="margin:0 0 4px;">Naija Taste Restaurant</h4>
-                <p class="muted" style="margin:0;">A Nigerian cuisine</p>
-              </div>
-            </article>
-          </a>
-
-          <a href="https://cyberpro308.github.io/Moda/" style="text-decoration:none;color:inherit;">
-            <article class="project" data-tilt>
-              <div class="thumb" style="background-image:url('images/moda.png');"></div>
-              <div class="meta">
-                <div class="tag">View</div>
-                <h4 style="margin:0 0 4px;">Moda</h4>
-                <p class="muted" style="margin:0;">An E-commerce website</p>
-              </div>
-            </article>
-          </a>
-        </div>
-      </section>
-
-      <section id="about" class="reveal" data-reveal>
-        <h3 class="section-title">About Me</h3>
-
-        <div class="about-wrap">
-          <div class="about-left">
-            <p style="margin-top:0;color:var(--muted)">
-              I'm Emmanuel — a web designer & frontend developer focused on clarity, performance and timeless aesthetics.
-              I help startups and brands ship delightful web experiences.
-            </p>
-
-            <div style="margin-top:12px">
-              <h4 style="margin:0 0 8px">Skills & tools</h4>
-
-              <div class="skills" id="skills">
-                <div class="skill">
-                  <div style="display:flex;justify-content:space-between;font-weight:800">
-                    UI Design <span style="font-weight:700;color:var(--muted)">90%</span>
-                  </div>
-                  <div class="bar">
-                    <div class="fill" data-fill="90" style="background:linear-gradient(90deg,var(--accent-2),var(--accent-1));"></div>
-                  </div>
-                </div>
-
-                <div class="skill">
-                  <div style="display:flex;justify-content:space-between;font-weight:800">
-                    HTML/CSS <span style="font-weight:700;color:var(--muted)">95%</span>
-                  </div>
-                  <div class="bar">
-                    <div class="fill" data-fill="95" style="background:linear-gradient(90deg,var(--accent-1),var(--accent-2));"></div>
-                  </div>
-                </div>
-
-                <div class="skill">
-                  <div style="display:flex;justify-content:space-between;font-weight:800">
-                    JavaScript/React <span style="font-weight:700;color:var(--muted)">85%</span>
-                  </div>
-                  <div class="bar">
-                    <div class="fill" data-fill="85" style="background:linear-gradient(90deg,var(--accent-2),var(--accent-1));"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <aside class="about-right">
-            <div class="testi">
-              <strong>Client feedback</strong>
-              <p style="margin:8px 0 0;color:var(--muted);font-size: var(--fs-body);">
-                "Emmanuel turned our messy requirements into a simple product — fast and excellent communication."
-              </p>
-              <div style="margin-top:10px;font-size: var(--fs-small);color:var(--muted)">— Alex, CEO</div>
-            </div>
-
-            <div style="margin-top:12px;background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--glass); box-shadow: var(--shadow);">
-              <strong>Contact</strong>
-              <p style="margin:8px 0 0;color:var(--muted);font-size: var(--fs-small);">
-                Email: <a class="link" href="mailto:olubanwoemmanuel0@gmail.com">olubanwoemmanuel0@gmail.com</a>
-              </p>
-              <p style="margin:6px 0 0;color:var(--muted);font-size: var(--fs-small);">Phone: +2349057467104</p>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section id="contact" class="reveal" data-reveal>
-        <h3 class="section-title">Let's build something</h3>
-
-        <div class="contact-wrap">
-          <form id="contactForm" class="contact-form">
-            <label style="display:block;margin-bottom:8px;font-weight:800" for="name">Your name</label>
-            <input id="name" name="name" required placeholder="Full name"
-                   style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--glass-2);background:transparent;color:inherit;margin-bottom:10px" />
-
-            <label style="display:block;margin-bottom:8px;font-weight:800" for="email">Email</label>
-            <input id="email" name="email" required type="email" placeholder="you@email.com"
-                   style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--glass-2);background:transparent;color:inherit;margin-bottom:10px" />
-
-            <label style="display:block;margin-bottom:8px;font-weight:800" for="message">Message</label>
-            <textarea id="message" name="message" required placeholder="Tell me about your project" rows="4"
-                      style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--glass-2);background:transparent;color:inherit;margin-bottom:10px"></textarea>
-
-            <button class="btn primary" type="submit">Send message</button>
-          </form>
-
-          <div class="contact-side">
-            <strong>Availability & rates</strong>
-            <p style="margin:8px 0 0;color:var(--muted)">
-              Available for freelance & remote roles. Typical project range: ₦50k — ₦500k, depending on scope.
-            </p>
-
-            <div style="margin-top:12px">
-              <strong>Quick links</strong>
-              <ul style="margin:8px 0 0;padding-left:18px;color:var(--muted)">
-                <li><a class="link" href="assets/Olubanwo_Emmanuel_CV.pdf" download>CV / Resume</a></li>
-                <li><a class="link" href="#">Dribbble</a></li>
-                <li><a class="link" href="#">Github</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer class="reveal" data-reveal>
-        <div>© <strong>Emmanuel</strong> — Web Design & Frontend</div>
-        <div>Built with care • Available for hire</div>
-      </footer>
-    </main>
+  <div class="bg-shape shape-a" aria-hidden="true"></div>
+  <div class="bg-shape shape-b" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true">
+    <span id="scrollProgressBar"></span>
   </div>
 
-  <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑ Top</button>
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <span class="brand-text">
+          <strong>Emmanuel</strong>
+          <span>Web Designer and Frontend Dev</span>
+        </span>
+      </a>
 
-  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
-    <div class="dot" aria-hidden="true"></div>
-    <div>
-      <p class="t-title" id="toastTitle">Done</p>
-      <p class="t-msg" id="toastMsg">Saved.</p>
+      <nav class="primary-nav" aria-label="Primary">
+        <a href="#services" data-nav-link>Services</a>
+        <a href="#work" data-nav-link>Projects</a>
+        <a href="#about" data-nav-link>About</a>
+        <a href="#skills" data-nav-link>Skills</a>
+        <a href="#contact" data-nav-link>Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Switch to light mode">
+          <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+          <span class="theme-toggle__label">Dark</span>
+        </button>
+        <a class="btn btn-primary btn-sm nav-cta" href="#contact">Start a Project</a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobileNavPanel"
+          aria-label="Open menu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav-overlay" id="mobileNavOverlay" hidden></div>
+  <aside
+    class="mobile-nav-panel"
+    id="mobileNavPanel"
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-label="Mobile navigation"
+    tabindex="-1">
+    <div class="mobile-nav-head">
+      <p>Menu</p>
+      <button type="button" class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">x</button>
+    </div>
+    <nav class="mobile-nav" aria-label="Mobile">
+      <a href="#services" data-nav-link data-mobile-link>Services</a>
+      <a href="#work" data-nav-link data-mobile-link>Projects</a>
+      <a href="#about" data-nav-link data-mobile-link>About</a>
+      <a href="#skills" data-nav-link data-mobile-link>Skills</a>
+      <a href="#contact" data-nav-link data-mobile-link>Contact</a>
+    </nav>
+    <a class="btn btn-primary mobile-nav-cta" href="#contact" data-mobile-link>Start a Project</a>
+  </aside>
+
+  <main id="top">
+    <section class="section hero" id="hero" aria-labelledby="heroTitle">
+      <div class="container grid-12 hero-grid">
+        <div class="hero-copy card-glass">
+          <p class="eyebrow" data-hero-item data-delay="0">Designer | UI/UX | Frontend</p>
+          <h1 id="heroTitle" data-hero-item data-delay="70">Hi - I am <span class="text-gradient">Emmanuel</span></h1>
+          <p class="hero-subtitle measure" data-hero-item data-delay="130">I design modern, elegant websites that people love to use.</p>
+          <p class="hero-lead measure" data-hero-item data-delay="190">I combine clarity, performance and aesthetic to build premium web experiences - from landing pages to complex product interfaces.</p>
+
+          <ul class="hero-chips" data-hero-item data-delay="250">
+            <li>Based in: Nigeria</li>
+            <li>Availability: Freelance</li>
+            <li>Experience: 3+ years</li>
+          </ul>
+
+          <div class="hero-actions" data-hero-item data-delay="320">
+            <a class="btn btn-primary" href="#work">View Work</a>
+            <a class="btn btn-ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+
+        <aside class="hero-card card-glass reveal" data-reveal data-delay="140" aria-label="Profile">
+          <figure class="profile-photo">
+            <img src="images/my picture.png" alt="Portrait of Emmanuel" loading="lazy">
+          </figure>
+
+          <div class="profile-meta">
+            <div>
+              <p class="label">Name</p>
+              <p class="profile-name">Emmanuel</p>
+              <p class="profile-role">Web Designer and Frontend Dev</p>
+            </div>
+            <div class="availability">
+              <p class="label">Status</p>
+              <strong>Available</strong>
+              <p>Freelance / Remote</p>
+            </div>
+          </div>
+
+          <div class="profile-links">
+            <a class="btn btn-ghost btn-sm" href="https://wa.me/2349057467104?text=Hello%20Emmanuel,%20I%20am%20interested%20in%20hiring%20you" target="_blank" rel="noreferrer">Hire me</a>
+            <a class="btn btn-outline btn-sm" href="assets/Olubanwo_Emmanuel_CV.pdf" download="Olubanwo_Emmanuel_CV.pdf">Download CV</a>
+          </div>
+
+          <div class="social-links" aria-label="Social links">
+            <a href="#" aria-label="Dribbble profile">Dribbble</a>
+            <a href="#" aria-label="Behance profile">Behance</a>
+            <a href="#" aria-label="GitHub profile">GitHub</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="services" aria-labelledby="servicesTitle">
+      <div class="container">
+        <div class="section-head reveal" data-reveal>
+          <p class="section-kicker">Services</p>
+          <h2 id="servicesTitle">What I do</h2>
+        </div>
+
+        <div class="grid-12 services-grid">
+          <article class="service-card card-glass reveal" data-reveal data-delay="80">
+            <h3>UI / Visual Design</h3>
+            <p>Create polished design systems, prototypes and high-fidelity mockups.</p>
+          </article>
+
+          <article class="service-card card-glass reveal" data-reveal data-delay="140">
+            <h3>Frontend Development</h3>
+            <p>Build accessible, responsive front-ends using modern HTML, CSS and JavaScript.</p>
+          </article>
+
+          <article class="service-card card-glass reveal" data-reveal data-delay="200">
+            <h3>Brand and Product</h3>
+            <p>Brand identity, landing pages and product-focused design to convert users.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work" aria-labelledby="workTitle">
+      <div class="container">
+        <div class="section-head reveal" data-reveal>
+          <p class="section-kicker">Selected Projects</p>
+          <h2 id="workTitle">Case Study Previews</h2>
+        </div>
+
+        <div class="grid-12 projects-grid">
+          <article class="project-card card-glass reveal" data-reveal data-delay="80">
+            <div class="project-media">
+              <img src="images/sunking.png" alt="Sunking project preview" loading="lazy">
+              <div class="project-overlay">
+                <span class="badge">Solar Company</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Sunking</h3>
+              <p>A marketing website for a solar company.</p>
+              <div class="badge-row" aria-label="Project metadata">
+                <span class="badge muted">Role: UI/UX + Frontend</span>
+                <span class="badge muted">Stack: HTML, CSS, JavaScript</span>
+              </div>
+              <div class="project-actions">
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-sm project-open"
+                  aria-haspopup="dialog"
+                  data-title="Sunking"
+                  data-overview="A responsive marketing website for a solar company focused on trust, clarity, and conversion."
+                  data-role="UI design and frontend development"
+                  data-stack="HTML, CSS, JavaScript"
+                  data-problem="The business needed a modern web presence that clearly explained its services and improved lead quality."
+                  data-solution="I redesigned the interface with clear content hierarchy, responsive layouts, and fast-loading sections to support conversion."
+                  data-live="https://cyberpro308.github.io/sunking/"
+                  data-github="https://github.com/cyberpro308/sunking">
+                  View Case Study
+                </button>
+                <a class="btn btn-outline btn-sm" href="https://cyberpro308.github.io/sunking/" target="_blank" rel="noreferrer">Visit Live</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card card-glass reveal" data-reveal data-delay="140">
+            <div class="project-media">
+              <img src="images/space haven.png" alt="Naija Taste Restaurant project preview" loading="lazy">
+              <div class="project-overlay">
+                <span class="badge">Nigerian Cuisine</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Naija Taste Restaurant</h3>
+              <p>A restaurant website built around menu discovery and booking flow.</p>
+              <div class="badge-row" aria-label="Project metadata">
+                <span class="badge muted">Role: UI/UX + Frontend</span>
+                <span class="badge muted">Stack: HTML, CSS, JavaScript</span>
+              </div>
+              <div class="project-actions">
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-sm project-open"
+                  aria-haspopup="dialog"
+                  data-title="Naija Taste Restaurant"
+                  data-overview="A restaurant web experience focused on showcasing menu highlights and guiding visitors to reservations."
+                  data-role="Visual design and frontend development"
+                  data-stack="HTML, CSS, JavaScript"
+                  data-problem="The restaurant needed a stronger online identity and a cleaner way to present menu categories on mobile and desktop."
+                  data-solution="I created an image-first layout with clear sections, readable typography, and stronger call-to-action placement for bookings."
+                  data-live="https://cyberpro308.github.io/spacehaven/"
+                  data-github="https://github.com/cyberpro308/spacehaven">
+                  View Case Study
+                </button>
+                <a class="btn btn-outline btn-sm" href="https://cyberpro308.github.io/spacehaven/" target="_blank" rel="noreferrer">Visit Live</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card card-glass reveal" data-reveal data-delay="200">
+            <div class="project-media">
+              <img src="images/moda.png" alt="Moda e-commerce project preview" loading="lazy">
+              <div class="project-overlay">
+                <span class="badge">E-commerce</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Moda</h3>
+              <p>An e-commerce website designed for product browsing and checkout confidence.</p>
+              <div class="badge-row" aria-label="Project metadata">
+                <span class="badge muted">Role: UI/UX + Frontend</span>
+                <span class="badge muted">Stack: HTML, CSS, JavaScript</span>
+              </div>
+              <div class="project-actions">
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-sm project-open"
+                  aria-haspopup="dialog"
+                  data-title="Moda"
+                  data-overview="An e-commerce website designed to make catalog browsing feel simple, premium, and conversion-focused."
+                  data-role="Product interface design and frontend development"
+                  data-stack="HTML, CSS, JavaScript"
+                  data-problem="The challenge was presenting products in a way that looked premium while staying lightweight and easy to navigate."
+                  data-solution="I used a clean product-card system, balanced spacing, and clear interaction cues to improve usability across devices."
+                  data-live="https://cyberpro308.github.io/Moda/"
+                  data-github="https://github.com/cyberpro308/Moda">
+                  View Case Study
+                </button>
+                <a class="btn btn-outline btn-sm" href="https://cyberpro308.github.io/Moda/" target="_blank" rel="noreferrer">Visit Live</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="aboutTitle">
+      <div class="container grid-12 about-grid">
+        <div class="about-copy reveal" data-reveal>
+          <p class="section-kicker">About</p>
+          <h2 id="aboutTitle">About Me</h2>
+          <p class="measure">I am Emmanuel - a web designer and frontend developer focused on clarity, performance, and timeless aesthetics. I help startups and brands ship delightful web experiences.</p>
+        </div>
+
+        <aside class="about-side reveal" data-reveal data-delay="120" aria-label="Extra details">
+          <article class="panel card-glass">
+            <h3>Contact</h3>
+            <p>Email: <a class="text-link" href="mailto:olubanwoemmanuel0@gmail.com">olubanwoemmanuel0@gmail.com</a></p>
+            <p>Phone: +2349057467104</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="skills" aria-labelledby="skillsTitle">
+      <div class="container grid-12 skills-grid">
+        <div class="skills-panel card-glass reveal" data-reveal>
+          <p class="section-kicker">Skills</p>
+          <h2 id="skillsTitle">Skills and Tools</h2>
+
+          <div class="skill-item">
+            <div class="skill-row">
+              <h3>UI Design</h3>
+              <span>90%</span>
+            </div>
+            <div class="skill-track">
+              <span class="skill-fill" data-fill="90"></span>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-row">
+              <h3>HTML/CSS</h3>
+              <span>95%</span>
+            </div>
+            <div class="skill-track">
+              <span class="skill-fill" data-fill="95"></span>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-row">
+              <h3>JavaScript/React</h3>
+              <span>85%</span>
+            </div>
+            <div class="skill-track">
+              <span class="skill-fill" data-fill="85"></span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="workflow card-glass reveal" data-reveal data-delay="120">
+          <h3>Workflow focus</h3>
+          <ul class="tag-list">
+            <li>Design systems</li>
+            <li>Wireframes and prototypes</li>
+            <li>Responsive frontend implementation</li>
+            <li>Performance and accessibility</li>
+            <li>Landing pages and product UI</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contactTitle">
+      <div class="container">
+        <div class="section-head reveal" data-reveal>
+          <p class="section-kicker">Contact</p>
+          <h2 id="contactTitle">Let us build something</h2>
+        </div>
+
+        <div class="grid-12 contact-grid">
+          <form id="contactForm" class="contact-form card-glass reveal" data-reveal data-delay="80" novalidate>
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required placeholder="Full name" autocomplete="name">
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required rows="5" placeholder="Tell me about your project"></textarea>
+
+            <button class="btn btn-primary" type="submit">Send message</button>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+
+          <aside class="contact-side card-glass reveal" data-reveal data-delay="140">
+            <h3>Availability and rates</h3>
+            <p>Available for freelance and remote roles. Typical project range: NGN 50k - NGN 500k, depending on scope.</p>
+            <button class="btn btn-ghost btn-sm copy-email" type="button" data-copy-email="olubanwoemmanuel0@gmail.com">
+              Copy Email
+            </button>
+
+            <h3>Quick links</h3>
+            <ul>
+              <li><a class="text-link" href="assets/Olubanwo_Emmanuel_CV.pdf" download="Olubanwo_Emmanuel_CV.pdf">CV / Resume</a></li>
+              <li><a class="text-link" href="#" aria-label="Dribbble profile">Dribbble</a></li>
+              <li><a class="text-link" href="#" aria-label="GitHub profile">GitHub</a></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; Emmanuel - Web Design and Frontend</p>
+      <p>Built with care | Available for hire</p>
+    </div>
+  </footer>
+
+  <div class="project-modal" id="projectModal" hidden>
+    <div class="project-modal__overlay" data-modal-close></div>
+    <div class="project-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalOverview" tabindex="-1">
+      <button type="button" class="modal-close" aria-label="Close case study" data-modal-close>x</button>
+
+      <p class="modal-kicker">Case Study</p>
+      <h2 id="modalTitle">Project title</h2>
+      <p id="modalOverview" class="measure"></p>
+
+      <div class="modal-meta">
+        <article>
+          <h3>Role</h3>
+          <p id="modalRole"></p>
+        </article>
+        <article>
+          <h3>Stack</h3>
+          <p id="modalStack"></p>
+        </article>
+      </div>
+
+      <article class="modal-block">
+        <h3>Problem</h3>
+        <p id="modalProblem"></p>
+      </article>
+
+      <article class="modal-block">
+        <h3>Solution</h3>
+        <p id="modalSolution"></p>
+      </article>
+
+      <div class="modal-actions">
+        <a id="modalLive" class="btn btn-primary" href="#" target="_blank" rel="noreferrer">Live Site</a>
+        <a id="modalGitHub" class="btn btn-outline" href="#" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
     </div>
   </div>
 
-  <script>
-    (function () {
-      const body = document.body;
-
-      const toggle = document.getElementById('darkModeToggle');
-      const iconSpan = toggle?.querySelector('.icon');
-      const labelSpan = toggle?.querySelector('.label');
-
-      const setThemeLabel = (isDark) => {
-        if (iconSpan) iconSpan.textContent = isDark ? '☀️' : '🌙';
-        if (labelSpan) labelSpan.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-      };
-
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        body.classList.add('dark');
-        setThemeLabel(true);
-      } else {
-        setThemeLabel(false);
-      }
-
-      toggle?.addEventListener('click', () => {
-        body.classList.toggle('dark');
-        const isDark = body.classList.contains('dark');
-        setThemeLabel(isDark);
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        toast('Theme updated', isDark ? 'Dark mode enabled.' : 'Light mode enabled.');
-      });
-
-      const header = document.getElementById('siteHeader');
-      const toTopBtn = document.getElementById('toTop');
-
-      const onScroll = () => {
-        const y = window.scrollY || 0;
-        header?.classList.toggle('is-scrolled', y > 12);
-        toTopBtn?.classList.toggle('show', y > 450);
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-
-      toTopBtn?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
-      if (!reduceMotion && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries) => {
-          for (const e of entries) {
-            if (!e.isIntersecting) continue;
-            e.target.classList.add('in');
-            io.unobserve(e.target);
-          }
-        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-
-        revealEls.forEach((el) => {
-          if (!el.classList.contains('in')) io.observe(el);
-        });
-      } else {
-        revealEls.forEach(el => el.classList.add('in'));
-      }
-
-      const skills = document.getElementById('skills');
-      const fills = Array.from(document.querySelectorAll('.fill[data-fill]'));
-
-      const fillBars = () => {
-        fills.forEach((el) => {
-          const pct = Number(el.getAttribute('data-fill') || 0);
-          el.style.width = Math.max(0, Math.min(100, pct)) + '%';
-        });
-      };
-
-      if (!reduceMotion && skills && 'IntersectionObserver' in window) {
-        const sio = new IntersectionObserver((entries) => {
-          if (entries.some(e => e.isIntersecting)) {
-            fillBars();
-            sio.disconnect();
-          }
-        }, { threshold: 0.25 });
-        sio.observe(skills);
-      } else {
-        fillBars();
-      }
-
-      const navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
-      const sections = navLinks
-        .map(a => document.querySelector(a.getAttribute('href')))
-        .filter(Boolean);
-
-      const setActive = (id) => {
-        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-      };
-
-      if ('IntersectionObserver' in window && sections.length) {
-        const spy = new IntersectionObserver((entries) => {
-          const visible = entries
-            .filter(e => e.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-          if (visible?.target?.id) setActive(visible.target.id);
-        }, { rootMargin: '-15% 0px -70% 0px', threshold: [0.12, 0.2, 0.35, 0.5] });
-
-        sections.forEach(s => spy.observe(s));
-      }
-
-      document.addEventListener('click', (e) => {
-        const a = e.target.closest('a[href^="#"]');
-        if (!a) return;
-
-        const href = a.getAttribute('href');
-        if (!href || href === '#') return;
-
-        const target = document.querySelector(href);
-        if (!target) return;
-
-        e.preventDefault();
-        const top = target.getBoundingClientRect().top + window.scrollY - (header?.offsetHeight || 0) - 18;
-        window.scrollTo({ top, behavior: 'smooth' });
-      });
-
-      const tilts = Array.from(document.querySelectorAll('[data-tilt]'));
-      if (!reduceMotion) {
-        tilts.forEach((card) => {
-          const max = 6;
-          const onMove = (ev) => {
-            const r = card.getBoundingClientRect();
-            const x = (ev.clientX - r.left) / r.width;
-            const y = (ev.clientY - r.top) / r.height;
-            const rx = (y - 0.5) * -max;
-            const ry = (x - 0.5) * max;
-            card.style.transform = `translateY(-8px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-          };
-          const onLeave = () => { card.style.transform = ''; };
-
-          card.addEventListener('mousemove', onMove);
-          card.addEventListener('mouseleave', onLeave);
-        });
-      }
-
-      const form = document.getElementById('contactForm');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-
-          const fd = new FormData(form);
-          const name = String(fd.get('name') || '').trim();
-          const email = String(fd.get('email') || '').trim();
-          const message = String(fd.get('message') || '').trim();
-
-          if (name.length < 2) return toast('Check name', 'Please enter your full name.');
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Check email', 'Please enter a valid email.');
-          if (message.length < 10) return toast('Add details', 'Message should be at least 10 characters.');
-
-          toast('Message ready', 'Hook this to Formspree/EmailJS to receive messages.');
-          form.reset();
-        });
-      }
-
-      const toastEl = document.getElementById('toast');
-      const toastTitleEl = document.getElementById('toastTitle');
-      const toastMsgEl = document.getElementById('toastMsg');
-      let toastTimer = null;
-
-      function toast(title, msg) {
-        if (!toastEl) return;
-        toastTitleEl.textContent = title;
-        toastMsgEl.textContent = msg;
-        toastEl.classList.add('show');
-        window.clearTimeout(toastTimer);
-        toastTimer = window.setTimeout(() => toastEl.classList.remove('show'), 2600);
-      }
-
-      const menuBtn = document.getElementById('mobileMenuBtn');
-      const drawer = document.getElementById('mobileDrawer');
-      const backdrop = document.getElementById('drawerBackdrop');
-      const closeBtn = document.getElementById('drawerCloseBtn');
-      const drawerLinks = Array.from(document.querySelectorAll('[data-drawer-link]'));
-
-      let lastFocused = null;
-
-      function setDrawerHidden(hidden) {
-        if (!drawer || !backdrop) return;
-        drawer.hidden = hidden;
-        backdrop.hidden = hidden;
-      }
-
-      function openMenu() {
-        if (!drawer || !backdrop || !menuBtn) return;
-        lastFocused = document.activeElement;
-        setDrawerHidden(false);
-        requestAnimationFrame(() => {
-          body.classList.add('menu-open');
-          menuBtn.setAttribute('aria-expanded', 'true');
-          closeBtn?.focus({ preventScroll: true });
-        });
-      }
-
-      function closeMenu() {
-        if (!drawer || !backdrop || !menuBtn) return;
-        body.classList.remove('menu-open');
-        menuBtn.setAttribute('aria-expanded', 'false');
-
-        const finish = () => {
-          setDrawerHidden(true);
-          if (lastFocused && typeof lastFocused.focus === 'function') {
-            lastFocused.focus({ preventScroll: true });
-          }
-        };
-
-        if (reduceMotion) return finish();
-        window.setTimeout(finish, 260);
-      }
-
-      menuBtn?.addEventListener('click', () => {
-        const isOpen = body.classList.contains('menu-open');
-        if (isOpen) closeMenu();
-        else openMenu();
-      });
-
-      closeBtn?.addEventListener('click', closeMenu);
-      backdrop?.addEventListener('click', closeMenu);
-
-      drawerLinks.forEach((a) => a.addEventListener('click', closeMenu));
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && body.classList.contains('menu-open')) closeMenu();
-      });
-
-      [backdrop, drawer].forEach((el) => {
-        el?.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
-      });
-    })();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

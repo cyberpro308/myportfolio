@@ -800,6 +800,10 @@ body.modal-open, body.menu-open { overflow: hidden; }
   .primary-nav { display: none; }
   .nav-cta { display: none; }
   .menu-toggle { display: inline-flex; }
+  /* primary-nav held margin-left:auto on desktop; it's hidden here,
+     so push the actions group to the right edge itself. */
+  .nav-actions { margin-left: auto; }
+  .nav-shell { padding-right: 0.5rem; }
   .section-head--row { align-items: flex-start; }
 }
 

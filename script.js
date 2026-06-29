@@ -1,576 +1,453 @@
 (() => {
+  "use strict";
+
   const body = document.body;
   const header = document.getElementById("siteHeader");
-  const scrollProgressBar = document.getElementById("scrollProgressBar");
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  const focusableSelector = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+  const focusableSelector =
+    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
   let reduceMotion = reduceMotionQuery.matches;
 
-  const themeToggle = document.getElementById("themeToggle");
-  const themeIcon = themeToggle ? themeToggle.querySelector(".theme-toggle__icon") : null;
-  const themeLabel = themeToggle ? themeToggle.querySelector(".theme-toggle__label") : null;
-  const storageThemeKey = "theme";
-  const readStoredTheme = () => {
-    try {
-      return localStorage.getItem(storageThemeKey);
-    } catch (_) {
-      return null;
-    }
-  };
-  const writeStoredTheme = (theme) => {
-    try {
-      localStorage.setItem(storageThemeKey, theme);
-    } catch (_) {
-      // Ignore storage write failures (privacy mode / disabled storage).
-    }
-  };
+  const onMotionChange = () => { reduceMotion = reduceMotionQuery.matches; };
+  reduceMotionQuery.addEventListener?.("change", onMotionChange);
 
-  const updateThemeUI = (theme) => {
+  /* ----------------------------------------------------------
+     Theme
+     ---------------------------------------------------------- */
+  const themeToggle = document.getElementById("themeToggle");
+  const iconMoon = themeToggle?.querySelector(".icon-moon");
+  const iconSun = themeToggle?.querySelector(".icon-sun");
+  const THEME_KEY = "theme";
+
+  const readTheme = () => { try { return localStorage.getItem(THEME_KEY); } catch { return null; } };
+  const writeTheme = (t) => { try { localStorage.setItem(THEME_KEY, t); } catch { /* ignore */ } };
+
+  const applyTheme = (theme) => {
     const isLight = theme === "light";
     body.classList.toggle("light", isLight);
-
     if (!themeToggle) return;
-
     themeToggle.setAttribute("aria-pressed", String(isLight));
     themeToggle.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
-    if (themeIcon) themeIcon.textContent = isLight ? "☀️" : "🌙";
-    if (themeLabel) themeLabel.textContent = isLight ? "Light" : "Dark";
+    if (iconMoon) iconMoon.style.display = isLight ? "none" : "";
+    if (iconSun) iconSun.style.display = isLight ? "" : "none";
   };
 
-  const getInitialTheme = () => {
-    const saved = readStoredTheme();
+  const initialTheme = () => {
+    const saved = readTheme();
     if (saved === "light" || saved === "dark") return saved;
     return colorSchemeQuery.matches ? "dark" : "light";
   };
 
-  updateThemeUI(getInitialTheme());
+  applyTheme(initialTheme());
 
   themeToggle?.addEventListener("click", () => {
-    const nextTheme = body.classList.contains("light") ? "dark" : "light";
-    updateThemeUI(nextTheme);
-    writeStoredTheme(nextTheme);
+    const next = body.classList.contains("light") ? "dark" : "light";
+    applyTheme(next);
+    writeTheme(next);
   });
 
-  if (typeof colorSchemeQuery.addEventListener === "function") {
-    colorSchemeQuery.addEventListener("change", () => {
-      const saved = readStoredTheme();
-      if (saved === "light" || saved === "dark") return;
-      updateThemeUI(colorSchemeQuery.matches ? "dark" : "light");
-    });
-  } else if (typeof colorSchemeQuery.addListener === "function") {
-    colorSchemeQuery.addListener(() => {
-      const saved = readStoredTheme();
-      if (saved === "light" || saved === "dark") return;
-      updateThemeUI(colorSchemeQuery.matches ? "dark" : "light");
-    });
-  }
-
-  const updateReduceMotion = () => {
-    reduceMotion = reduceMotionQuery.matches;
-  };
-
-  if (typeof reduceMotionQuery.addEventListener === "function") {
-    reduceMotionQuery.addEventListener("change", updateReduceMotion);
-  } else if (typeof reduceMotionQuery.addListener === "function") {
-    reduceMotionQuery.addListener(updateReduceMotion);
-  }
-
-  const updateHeaderState = () => {
-    if (!header) return;
-    header.classList.toggle("is-scrolled", window.scrollY > 10);
-  };
-
-  const updateScrollProgress = () => {
-    if (!scrollProgressBar) return;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
-    scrollProgressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
-  };
-
-  updateHeaderState();
-  updateScrollProgress();
-  window.addEventListener("scroll", updateHeaderState, { passive: true });
-  window.addEventListener("scroll", updateScrollProgress, { passive: true });
-  window.addEventListener("resize", updateScrollProgress, { passive: true });
-
-  const heroItems = Array.from(document.querySelectorAll("[data-hero-item]"));
-  heroItems.forEach((item) => {
-    const delay = Number(item.getAttribute("data-delay") || "0");
-    item.style.setProperty("--hero-delay", `${Math.max(0, delay)}ms`);
+  colorSchemeQuery.addEventListener?.("change", () => {
+    const saved = readTheme();
+    if (saved === "light" || saved === "dark") return;
+    applyTheme(colorSchemeQuery.matches ? "dark" : "light");
   });
 
+  /* ----------------------------------------------------------
+     Header state + scroll progress
+     ---------------------------------------------------------- */
+  const progressBar = document.getElementById("scrollProgressBar");
+
+  const onScroll = () => {
+    if (header) header.classList.toggle("is-scrolled", window.scrollY > 8);
+    if (progressBar) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+    }
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+
+  /* ----------------------------------------------------------
+     Footer year
+     ---------------------------------------------------------- */
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  /* ----------------------------------------------------------
+     Hero entrance
+     ---------------------------------------------------------- */
+  document.querySelectorAll("[data-hero-item]").forEach((el) => {
+    const delay = Number(el.getAttribute("data-delay") || "0");
+    el.style.setProperty("--hero-delay", `${Math.max(0, delay)}ms`);
+  });
   if (reduceMotion) {
     body.classList.add("hero-ready");
   } else {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        body.classList.add("hero-ready");
-      });
-    });
+    requestAnimationFrame(() => requestAnimationFrame(() => body.classList.add("hero-ready")));
   }
 
+  /* ----------------------------------------------------------
+     Reveal on scroll
+     ---------------------------------------------------------- */
   const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
-  revealItems.forEach((item) => {
-    const delay = Number(item.getAttribute("data-delay") || "0");
-    item.style.setProperty("--reveal-delay", `${Math.max(0, delay)}ms`);
+  revealItems.forEach((el) => {
+    const delay = Number(el.getAttribute("data-delay") || "0");
+    el.style.setProperty("--reveal-delay", `${Math.max(0, delay)}ms`);
   });
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
-    revealItems.forEach((item) => item.classList.add("is-visible"));
+    revealItems.forEach((el) => el.classList.add("is-visible"));
   } else {
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
+    const io = new IntersectionObserver(
+      (entries, obs) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+          obs.unobserve(entry.target);
         });
       },
-      {
-        threshold: 0.15,
-        rootMargin: "0px 0px -8% 0px"
-      }
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
     );
-
-    revealItems.forEach((item) => revealObserver.observe(item));
+    revealItems.forEach((el) => io.observe(el));
   }
 
-  const spotlightTargets = Array.from(document.querySelectorAll(".card-glass, .project-modal__dialog"));
-  if (!reduceMotion) {
-    spotlightTargets.forEach((target) => {
-      target.addEventListener("pointermove", (event) => {
-        const rect = target.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        target.style.setProperty("--spot-x", `${x}px`);
-        target.style.setProperty("--spot-y", `${y}px`);
+  /* ----------------------------------------------------------
+     Animated number counters
+     ---------------------------------------------------------- */
+  const counters = Array.from(document.querySelectorAll(".stat-num[data-count]"));
+
+  const runCounter = (el) => {
+    const target = Number(el.getAttribute("data-count") || "0");
+    const suffix = el.getAttribute("data-suffix") || "";
+    if (reduceMotion) { el.textContent = `${target}${suffix}`; return; }
+    const duration = 1400;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = `${Math.round(target * eased)}${suffix}`;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  if (counters.length) {
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      counters.forEach(runCounter);
+    } else {
+      const cio = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            runCounter(entry.target);
+            obs.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.6 }
+      );
+      counters.forEach((el) => cio.observe(el));
+    }
+  }
+
+  /* ----------------------------------------------------------
+     Skill bars
+     ---------------------------------------------------------- */
+  const skillFills = Array.from(document.querySelectorAll(".skill-fill[data-fill]"));
+  const fillSkills = () => {
+    skillFills.forEach((bar) => {
+      const v = Number(bar.getAttribute("data-fill") || "0");
+      bar.style.width = `${Math.min(100, Math.max(0, v))}%`;
+    });
+  };
+  const skillsPanel = document.querySelector(".skills-panel");
+  if (reduceMotion || !("IntersectionObserver" in window) || !skillsPanel) {
+    fillSkills();
+  } else {
+    const sio = new IntersectionObserver(
+      (entries, obs) => {
+        if (entries.some((e) => e.isIntersecting)) { fillSkills(); obs.disconnect(); }
+      },
+      { threshold: 0.3 }
+    );
+    sio.observe(skillsPanel);
+  }
+
+  /* ----------------------------------------------------------
+     Pointer spotlight on service cards
+     ---------------------------------------------------------- */
+  if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+    document.querySelectorAll(".service-card").forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
       });
     });
   }
 
-  const getHeaderOffset = () => (header ? header.offsetHeight + 16 : 16);
+  /* ----------------------------------------------------------
+     Smooth anchor scroll with header offset
+     ---------------------------------------------------------- */
+  const headerOffset = () => (header ? header.offsetHeight + 18 : 18);
 
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest('a[href^="#"]');
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="#"]');
     if (!link) return;
-
-    const targetId = link.getAttribute("href");
-    if (!targetId || targetId === "#") {
-      event.preventDefault();
-      return;
-    }
-
-    const target = document.querySelector(targetId);
+    const id = link.getAttribute("href");
+    if (!id || id === "#") { e.preventDefault(); return; }
+    const target = document.querySelector(id);
     if (!target) return;
-
-    event.preventDefault();
-    const y = target.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
-
-    window.scrollTo({
-      top: Math.max(0, y),
-      behavior: reduceMotion ? "auto" : "smooth"
-    });
+    e.preventDefault();
+    const y = target.getBoundingClientRect().top + window.scrollY - headerOffset();
+    window.scrollTo({ top: Math.max(0, y), behavior: reduceMotion ? "auto" : "smooth" });
   });
 
+  /* ----------------------------------------------------------
+     Active nav link via scroll spy
+     ---------------------------------------------------------- */
   const navLinks = Array.from(document.querySelectorAll('[data-nav-link][href^="#"]'));
-  const trackedSections = navLinks
-    .map((link) => document.querySelector(link.getAttribute("href")))
+  const sections = navLinks
+    .map((l) => document.querySelector(l.getAttribute("href")))
     .filter(Boolean)
-    .filter((section, index, sections) => sections.indexOf(section) === index);
+    .filter((s, i, arr) => arr.indexOf(s) === i);
 
-  const setActiveNav = (id) => {
-    navLinks.forEach((link) => {
-      const isActive = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("active", isActive);
-      if (isActive) {
-        link.setAttribute("aria-current", "page");
-      } else {
-        link.removeAttribute("aria-current");
-      }
+  const setActive = (id) => {
+    navLinks.forEach((l) => {
+      const active = l.getAttribute("href") === `#${id}`;
+      l.classList.toggle("active", active);
+      if (active) l.setAttribute("aria-current", "true");
+      else l.removeAttribute("aria-current");
     });
   };
 
-  if (trackedSections.length) {
-    setActiveNav(trackedSections[0].id);
-  }
-
-  if (trackedSections.length && "IntersectionObserver" in window) {
-    const navObserver = new IntersectionObserver(
+  if (sections.length && "IntersectionObserver" in window) {
+    const navIo = new IntersectionObserver(
       (entries) => {
         const visible = entries
-          .filter((entry) => entry.isIntersecting)
+          .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible && visible.target && visible.target.id) {
-          setActiveNav(visible.target.id);
-        }
+        if (visible?.target?.id) setActive(visible.target.id);
       },
-      {
-        rootMargin: "-24% 0px -60% 0px",
-        threshold: [0.2, 0.35, 0.5, 0.7]
-      }
+      { rootMargin: "-30% 0px -55% 0px", threshold: [0.15, 0.4, 0.7] }
     );
-
-    trackedSections.forEach((section) => navObserver.observe(section));
+    sections.forEach((s) => navIo.observe(s));
   }
 
+  /* ----------------------------------------------------------
+     Mobile nav
+     ---------------------------------------------------------- */
   const menuToggle = document.getElementById("menuToggle");
-  const mobileNavPanel = document.getElementById("mobileNavPanel");
-  const mobileNavOverlay = document.getElementById("mobileNavOverlay");
-  const mobileNavClose = document.getElementById("mobileNavClose");
-  const mobileNavLinks = Array.from(document.querySelectorAll("[data-mobile-link]"));
-  let lastMenuFocused = null;
-  let menuCloseTimer = null;
+  const panel = document.getElementById("mobileNavPanel");
+  const overlay = document.getElementById("mobileNavOverlay");
+  const menuClose = document.getElementById("mobileNavClose");
+  const mobileLinks = Array.from(document.querySelectorAll("[data-mobile-link]"));
+  let lastMenuFocus = null;
+  let menuTimer = null;
 
-  const getMenuFocusable = () => {
-    if (!mobileNavPanel) return [];
-    return Array.from(mobileNavPanel.querySelectorAll(focusableSelector)).filter((element) => {
-      if (!(element instanceof HTMLElement)) return false;
-      return !element.hasAttribute("disabled") && element.tabIndex !== -1;
-    });
-  };
+  const menuFocusable = () =>
+    panel ? Array.from(panel.querySelectorAll(focusableSelector)).filter((el) => el.tabIndex !== -1) : [];
 
   const setMenuHidden = (hidden) => {
-    if (mobileNavPanel) mobileNavPanel.hidden = hidden;
-    if (mobileNavOverlay) mobileNavOverlay.hidden = hidden;
+    if (panel) panel.hidden = hidden;
+    if (overlay) overlay.hidden = hidden;
   };
 
   const openMenu = () => {
-    if (!mobileNavPanel || !mobileNavOverlay || !menuToggle) return;
-    lastMenuFocused = document.activeElement;
+    if (!panel || !overlay || !menuToggle) return;
+    lastMenuFocus = document.activeElement;
     setMenuHidden(false);
     menuToggle.setAttribute("aria-expanded", "true");
-    window.clearTimeout(menuCloseTimer);
-    window.requestAnimationFrame(() => {
-      body.classList.add("menu-open");
-    });
-    (mobileNavClose || mobileNavPanel).focus({ preventScroll: true });
+    clearTimeout(menuTimer);
+    requestAnimationFrame(() => body.classList.add("menu-open"));
+    (menuClose || panel).focus({ preventScroll: true });
   };
 
-  const closeMenu = (shouldRestoreFocus = true) => {
-    if (!mobileNavPanel || !mobileNavOverlay || !menuToggle) return;
+  const closeMenu = (restore = true) => {
+    if (!panel || !overlay || !menuToggle) return;
     body.classList.remove("menu-open");
     menuToggle.setAttribute("aria-expanded", "false");
-
-    const finishClose = () => {
+    const finish = () => {
       setMenuHidden(true);
-      if (
-        shouldRestoreFocus &&
-        lastMenuFocused &&
-        typeof lastMenuFocused.focus === "function"
-      ) {
-        lastMenuFocused.focus({ preventScroll: true });
-      }
+      if (restore && lastMenuFocus?.focus) lastMenuFocus.focus({ preventScroll: true });
     };
-
-    if (reduceMotion) {
-      finishClose();
-      return;
-    }
-
-    window.clearTimeout(menuCloseTimer);
-    menuCloseTimer = window.setTimeout(finishClose, 220);
+    if (reduceMotion) { finish(); return; }
+    clearTimeout(menuTimer);
+    menuTimer = setTimeout(finish, 320);
   };
 
-  menuToggle?.addEventListener("click", () => {
-    if (body.classList.contains("menu-open")) {
-      closeMenu();
-      return;
-    }
-    openMenu();
-  });
-
-  mobileNavClose?.addEventListener("click", () => closeMenu());
-  mobileNavOverlay?.addEventListener("click", () => closeMenu());
-  mobileNavLinks.forEach((link) => {
-    link.addEventListener("click", () => closeMenu(false));
-  });
+  menuToggle?.addEventListener("click", () =>
+    body.classList.contains("menu-open") ? closeMenu() : openMenu()
+  );
+  menuClose?.addEventListener("click", () => closeMenu());
+  overlay?.addEventListener("click", () => closeMenu());
+  mobileLinks.forEach((l) => l.addEventListener("click", () => closeMenu(false)));
 
   window.addEventListener("resize", () => {
-    if (!menuToggle || !mobileNavPanel || !mobileNavOverlay) return;
     if (window.innerWidth >= 960 && body.classList.contains("menu-open")) {
       body.classList.remove("menu-open");
-      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle?.setAttribute("aria-expanded", "false");
       setMenuHidden(true);
     }
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (!body.classList.contains("menu-open") || !mobileNavPanel || mobileNavPanel.hidden) return;
-
-    if (event.key === "Escape") {
-      event.preventDefault();
-      closeMenu();
-      return;
-    }
-
-    if (event.key !== "Tab") return;
-
-    const focusable = getMenuFocusable();
-    if (!focusable.length) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (!mobileNavPanel.contains(document.activeElement)) {
-      event.preventDefault();
-      first.focus();
-      return;
-    }
-
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-      return;
-    }
-
-    if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+  document.addEventListener("keydown", (e) => {
+    if (!body.classList.contains("menu-open") || !panel || panel.hidden) return;
+    if (e.key === "Escape") { e.preventDefault(); closeMenu(); return; }
+    if (e.key !== "Tab") return;
+    const f = menuFocusable();
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (!panel.contains(document.activeElement)) { e.preventDefault(); first.focus(); return; }
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 
-  const skillFills = Array.from(document.querySelectorAll(".skill-fill[data-fill]"));
-  const skillsSection = document.getElementById("skills");
+  /* ----------------------------------------------------------
+     Contact form (client-side validation)
+     ---------------------------------------------------------- */
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("formStatus");
 
-  const fillSkillBars = () => {
-    skillFills.forEach((bar) => {
-      const fill = Number(bar.getAttribute("data-fill") || "0");
-      bar.style.width = `${Math.min(100, Math.max(0, fill))}%`;
-    });
+  const setStatus = (msg, type) => {
+    if (!status) return;
+    status.textContent = msg;
+    status.classList.remove("is-error", "is-success");
+    if (type) status.classList.add(type);
   };
 
-  if (reduceMotion || !("IntersectionObserver" in window) || !skillsSection) {
-    fillSkillBars();
-  } else {
-    const skillsObserver = new IntersectionObserver(
-      (entries, observer) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          fillSkillBars();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.28 }
-    );
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const message = String(data.get("message") || "").trim();
 
-    skillsObserver.observe(skillsSection);
-  }
+    if (name.length < 2) return setStatus("Please enter your full name.", "is-error");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setStatus("Please enter a valid email address.", "is-error");
+    if (message.length < 10) return setStatus("Please add at least 10 characters to your message.", "is-error");
 
-  const contactForm = document.getElementById("contactForm");
-  const formStatus = document.getElementById("formStatus");
-  const copyEmailButtons = Array.from(document.querySelectorAll("[data-copy-email]"));
+    setStatus("Thanks! Your message is ready — connect this form to Formspree or EmailJS to receive it.", "is-success");
+    form.reset();
+  });
 
-  const setFormStatus = (message, type) => {
-    if (!formStatus) return;
-    formStatus.textContent = message;
-    formStatus.classList.remove("is-error", "is-success");
-    if (type) formStatus.classList.add(type);
-  };
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const formData = new FormData(contactForm);
-      const name = String(formData.get("name") || "").trim();
-      const email = String(formData.get("email") || "").trim();
-      const message = String(formData.get("message") || "").trim();
-
-      if (name.length < 2) {
-        setFormStatus("Please enter your full name.", "is-error");
-        return;
-      }
-
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        setFormStatus("Please enter a valid email address.", "is-error");
-        return;
-      }
-
-      if (message.length < 10) {
-        setFormStatus("Please add at least 10 characters to your message.", "is-error");
-        return;
-      }
-
-      setFormStatus("Message ready. Connect this form to Formspree or EmailJS.", "is-success");
-      contactForm.reset();
-    });
-  }
-
-  copyEmailButtons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      const email = button.getAttribute("data-copy-email");
+  /* ----------------------------------------------------------
+     Copy email
+     ---------------------------------------------------------- */
+  document.querySelectorAll("[data-copy-email]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const email = btn.getAttribute("data-copy-email");
       if (!email) return;
-
-      const originalLabel = button.textContent || "Copy Email";
-
+      const original = btn.innerHTML;
       try {
-        if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+        if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(email);
         } else {
-          const helper = document.createElement("textarea");
-          helper.value = email;
-          helper.setAttribute("readonly", "");
-          helper.style.position = "absolute";
-          helper.style.left = "-9999px";
-          document.body.appendChild(helper);
-          helper.select();
-          document.execCommand("copy");
-          helper.remove();
+          const t = document.createElement("textarea");
+          t.value = email; t.style.position = "absolute"; t.style.left = "-9999px";
+          document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove();
         }
-
-        button.textContent = "Copied";
-      } catch (_) {
-        button.textContent = "Unable to copy";
+        btn.textContent = "Copied to clipboard ✓";
+      } catch {
+        btn.textContent = "Press Ctrl+C to copy";
       }
-
-      window.setTimeout(() => {
-        button.textContent = originalLabel;
-      }, 1500);
+      setTimeout(() => { btn.innerHTML = original; }, 1800);
     });
   });
 
+  /* ----------------------------------------------------------
+     Project case-study modal
+     ---------------------------------------------------------- */
   const modal = document.getElementById("projectModal");
-  const modalDialog = modal ? modal.querySelector(".project-modal__dialog") : null;
-  const modalTitle = document.getElementById("modalTitle");
-  const modalOverview = document.getElementById("modalOverview");
-  const modalRole = document.getElementById("modalRole");
-  const modalStack = document.getElementById("modalStack");
-  const modalProblem = document.getElementById("modalProblem");
-  const modalSolution = document.getElementById("modalSolution");
+  const dialog = modal?.querySelector(".project-modal__dialog");
+  const fields = {
+    category: document.getElementById("modalCategory"),
+    title: document.getElementById("modalTitle"),
+    overview: document.getElementById("modalOverview"),
+    role: document.getElementById("modalRole"),
+    stack: document.getElementById("modalStack"),
+    problem: document.getElementById("modalProblem"),
+    solution: document.getElementById("modalSolution"),
+  };
   const modalLive = document.getElementById("modalLive");
   const modalGitHub = document.getElementById("modalGitHub");
-
-  const openButtons = Array.from(document.querySelectorAll(".project-open"));
-  const closeButtons = modal ? Array.from(modal.querySelectorAll("[data-modal-close]")) : [];
-
-  let lastFocusedElement = null;
+  let lastFocus = null;
   let closeTimer = null;
 
-  const getFocusableInModal = () => {
-    if (!modal) return [];
-    return Array.from(modal.querySelectorAll(focusableSelector)).filter((element) => {
-      if (!(element instanceof HTMLElement)) return false;
-      return !element.hasAttribute("disabled") && element.tabIndex !== -1;
-    });
+  const modalFocusable = () =>
+    modal ? Array.from(modal.querySelectorAll(focusableSelector)).filter((el) => el.tabIndex !== -1 && el.offsetParent !== null) : [];
+
+  const val = (btn, key, fallback = "") => {
+    const v = btn.dataset[key];
+    return v && v.trim() ? v.trim() : fallback;
   };
 
-  const setModalContent = (button) => {
-    if (!button) return;
+  const fillModal = (btn) => {
+    if (fields.category) fields.category.textContent = val(btn, "category", "Case study");
+    if (fields.title) fields.title.textContent = val(btn, "title", "Project");
+    if (fields.overview) fields.overview.textContent = val(btn, "overview");
+    if (fields.role) fields.role.textContent = val(btn, "role");
+    if (fields.stack) fields.stack.textContent = val(btn, "stack");
+    if (fields.problem) fields.problem.textContent = val(btn, "problem");
+    if (fields.solution) fields.solution.textContent = val(btn, "solution");
 
-    const getValue = (key, fallback = "") => {
-      const value = button.dataset[key];
-      return value && value.trim().length ? value.trim() : fallback;
-    };
-
-    if (modalTitle) modalTitle.textContent = getValue("title", "Project");
-    if (modalOverview) modalOverview.textContent = getValue("overview");
-    if (modalRole) modalRole.textContent = getValue("role");
-    if (modalStack) modalStack.textContent = getValue("stack");
-    if (modalProblem) modalProblem.textContent = getValue("problem");
-    if (modalSolution) modalSolution.textContent = getValue("solution");
-
-    const liveLink = getValue("live", "#");
-    const githubLink = getValue("github", "#");
-
-    if (modalLive) modalLive.href = liveLink;
-    if (modalGitHub) modalGitHub.href = githubLink;
+    const live = val(btn, "live");
+    const github = val(btn, "github");
+    if (modalLive) {
+      if (live) { modalLive.href = live; modalLive.hidden = false; }
+      else { modalLive.hidden = true; }
+    }
+    if (modalGitHub) {
+      if (github) { modalGitHub.href = github; modalGitHub.hidden = false; }
+      else { modalGitHub.hidden = true; }
+    }
   };
 
-  const openModal = (button) => {
-    if (!modal || !modalDialog) return;
-
-    lastFocusedElement = button instanceof HTMLElement ? button : document.activeElement;
-    setModalContent(button);
-
+  const openModal = (btn) => {
+    if (!modal || !dialog) return;
+    lastFocus = btn instanceof HTMLElement ? btn : document.activeElement;
+    fillModal(btn);
     modal.hidden = false;
     body.classList.add("modal-open");
-
-    window.clearTimeout(closeTimer);
-    if (reduceMotion) {
-      modal.classList.add("is-open");
-    } else {
-      window.requestAnimationFrame(() => {
-        modal.classList.add("is-open");
-      });
-    }
-
-    modalDialog.focus({ preventScroll: true });
+    clearTimeout(closeTimer);
+    if (reduceMotion) modal.classList.add("is-open");
+    else requestAnimationFrame(() => modal.classList.add("is-open"));
+    dialog.scrollTop = 0;
+    dialog.focus({ preventScroll: true });
   };
 
   const closeModal = () => {
     if (!modal || modal.hidden) return;
-
     modal.classList.remove("is-open");
     body.classList.remove("modal-open");
-
-    const finishClose = () => {
+    const finish = () => {
       modal.hidden = true;
-      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
-        lastFocusedElement.focus({ preventScroll: true });
-      }
+      if (lastFocus?.focus) lastFocus.focus({ preventScroll: true });
     };
-
-    if (reduceMotion) {
-      finishClose();
-      return;
-    }
-
-    window.clearTimeout(closeTimer);
-    closeTimer = window.setTimeout(finishClose, 240);
+    if (reduceMotion) { finish(); return; }
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(finish, 300);
   };
 
-  openButtons.forEach((button) => {
-    button.addEventListener("click", () => openModal(button));
+  document.querySelectorAll(".project-open").forEach((btn) =>
+    btn.addEventListener("click", () => openModal(btn))
+  );
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target.closest("[data-modal-close]")) { e.preventDefault(); closeModal(); }
   });
 
-  closeButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      closeModal();
-    });
-  });
-
-  modal?.addEventListener("click", (event) => {
-    const closeTrigger = event.target.closest("[data-modal-close]");
-    if (!closeTrigger) return;
-    event.preventDefault();
-    closeModal();
-  });
-
-  document.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", (e) => {
     if (!modal || modal.hidden) return;
-
-    if (event.key === "Escape") {
-      event.preventDefault();
-      closeModal();
-      return;
-    }
-
-    if (event.key !== "Tab") return;
-
-    const focusable = getFocusableInModal();
-    if (!focusable.length) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (!modal.contains(document.activeElement)) {
-      event.preventDefault();
-      first.focus();
-      return;
-    }
-
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-      return;
-    }
-
-    if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+    if (e.key === "Escape") { e.preventDefault(); closeModal(); return; }
+    if (e.key !== "Tab") return;
+    const f = modalFocusable();
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (!modal.contains(document.activeElement)) { e.preventDefault(); first.focus(); return; }
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 })();

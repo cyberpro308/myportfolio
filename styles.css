@@ -817,6 +817,146 @@ body.modal-open, body.menu-open { overflow: hidden; }
   .nav-shell { gap: 0.5rem; }
 }
 
+/* ============================================================
+   Polish & motion enhancements
+   ============================================================ */
+
+/* animated shimmer on gradient text */
+.text-gradient,
+.hero-stat dt.stat-num {
+  background-size: 220% 220%;
+  animation: gradientShift 9s var(--ease) infinite;
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* brand mark breathing gradient */
+.brand-mark { animation: gradientShift 8s var(--ease) infinite; }
+
+/* glowing gradient border that lights up on hover */
+.service-card, .project-card, .process-step, .testimonial, .skills-panel {
+  position: relative;
+  isolation: isolate;
+}
+.service-card::after,
+.project-card::after,
+.process-step::after,
+.testimonial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(130deg, var(--accent-3), var(--accent), var(--accent-2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  transition: opacity 0.4s var(--ease);
+}
+.service-card:hover::after,
+.project-card:hover::after,
+.process-step:hover::after,
+.testimonial:hover::after { opacity: 0.75; }
+
+/* accent-tinted lift shadow */
+.project-card:hover, .service-card:hover {
+  box-shadow: 0 30px 70px -28px rgba(var(--accent-rgb), 0.4), var(--shadow-2);
+}
+
+/* animated service icon */
+.service-icon { transition: transform 0.35s var(--ease), background 0.35s var(--ease), color 0.35s var(--ease); }
+.service-card:hover .service-icon {
+  transform: translateY(-3px) rotate(-7deg) scale(1.06);
+  background: var(--grad);
+  color: #04101f;
+  border-color: transparent;
+}
+
+/* process number fills on hover */
+.process-num { transition: background 0.35s var(--ease), color 0.35s var(--ease), transform 0.35s var(--ease), border-color 0.35s var(--ease); }
+.process-step:hover .process-num {
+  background: var(--grad);
+  color: #04101f;
+  border-color: transparent;
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* shine sweep on primary buttons */
+.btn-primary { overflow: hidden; }
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -130%;
+  width: 55%; height: 100%;
+  transform: skewX(-22deg);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  pointer-events: none;
+}
+.btn-primary:hover::before {
+  left: 150%;
+  transition: left 0.75s var(--ease);
+}
+
+/* 3D tilt base (driven by JS) */
+[data-tilt] { transform-style: preserve-3d; will-change: transform; }
+[data-tilt].is-tilting { transition: transform 0.12s ease-out; }
+
+/* spotlight sheen on the hero card, like the service cards */
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(440px circle at var(--mx, 50%) var(--my, 30%), rgba(var(--accent-rgb), 0.14), transparent 62%);
+  transition: opacity 0.35s var(--ease);
+}
+.hero-card:hover::before { opacity: 1; }
+
+/* floating hero badges */
+.hero-photo__badge--top { animation: floatBadge 4.5s var(--ease) infinite; }
+.hero-photo__badge--bottom { animation: floatBadge 5.5s var(--ease) infinite reverse; }
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* reveal variants for directional entrances */
+[data-reveal="left"] { transform: translateX(-40px); }
+[data-reveal="right"] { transform: translateX(40px); }
+[data-reveal="scale"] { transform: scale(0.94); }
+[data-reveal].is-visible { transform: none; }
+
+/* animated section kicker line */
+.section-kicker::before { transition: width 0.6s var(--ease) 0.1s; }
+.section-head.reveal:not(.is-visible) .section-kicker::before { width: 0; }
+
+/* nav link underline sweep */
+.primary-nav a::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem; right: 0.85rem; bottom: 0.28rem;
+  height: 2px; border-radius: 9px;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s var(--ease);
+}
+.primary-nav a:hover::before, .primary-nav a:focus-visible::before { transform: scaleX(1); }
+
+/* marquee items get a hover pop */
+.marquee__track span { transition: color 0.25s var(--ease); }
+.marquee__track span:hover { color: var(--accent); }
+
+/* scroll cue subtle bob */
+.hero-scroll { animation: floatBadge 3s var(--ease) infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

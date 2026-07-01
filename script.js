@@ -176,15 +176,70 @@
   }
 
   /* ----------------------------------------------------------
-     Pointer spotlight on service cards
+     Pointer spotlight on service + hero cards
      ---------------------------------------------------------- */
-  if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
-    document.querySelectorAll(".service-card").forEach((card) => {
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+  if (!reduceMotion && finePointer) {
+    document.querySelectorAll(".service-card, .hero-card").forEach((card) => {
       card.addEventListener("pointermove", (e) => {
         const r = card.getBoundingClientRect();
         card.style.setProperty("--mx", `${e.clientX - r.left}px`);
         card.style.setProperty("--my", `${e.clientY - r.top}px`);
       });
+    });
+  }
+
+  /* ----------------------------------------------------------
+     3D tilt on cards
+     ---------------------------------------------------------- */
+  if (!reduceMotion && finePointer) {
+    const MAX_TILT = 7; // degrees
+    document.querySelectorAll(".project-card, .hero-card").forEach((card) => {
+      card.setAttribute("data-tilt", "");
+      let raf = 0;
+
+      const onMove = (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          card.style.transform =
+            `perspective(1000px) rotateX(${(-py * MAX_TILT).toFixed(2)}deg) ` +
+            `rotateY(${(px * MAX_TILT).toFixed(2)}deg) translateY(-6px)`;
+        });
+      };
+
+      card.addEventListener("pointerenter", () => card.classList.add("is-tilting"));
+      card.addEventListener("pointermove", onMove);
+      card.addEventListener("pointerleave", () => {
+        if (raf) cancelAnimationFrame(raf);
+        card.classList.remove("is-tilting");
+        card.style.transform = "";
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------
+     Magnetic pull on key call-to-action buttons
+     ---------------------------------------------------------- */
+  if (!reduceMotion && finePointer) {
+    const magnets = document.querySelectorAll(
+      ".nav-cta, .hero-actions .btn-primary, .contact-form .btn-lg"
+    );
+    magnets.forEach((btn) => {
+      const STRENGTH = 0.32;
+      const MAX = 9; // px
+      btn.addEventListener("pointermove", (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = e.clientX - (r.left + r.width / 2);
+        const my = e.clientY - (r.top + r.height / 2);
+        const dx = Math.max(-MAX, Math.min(MAX, mx * STRENGTH));
+        const dy = Math.max(-MAX, Math.min(MAX, my * STRENGTH));
+        btn.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+      });
+      btn.addEventListener("pointerleave", () => { btn.style.transform = ""; });
     });
   }
 
